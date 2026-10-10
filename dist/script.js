@@ -45,19 +45,6 @@ const formCode = `<form id="hello-form">
         'Thanks! This demo does not send data.';
     });
 </script>`;
-const starter = `<div class="card featured">
-  <img src="profile.svg" alt="A smiling green avatar" width="80">
-  <h1>Hi, I'm Alex.</h1>
-  <p>Curious human. Beginner coder.</p>
-  <p>A few things I love:</p>
-  <ul>
-    <li>Making things</li>
-    <li>Learning something new</li>
-    <li>A really good playlist</li>
-  </ul>
-  <a href="https://example.com" target="_blank" rel="noopener">My favorite website ↗</a>
-  <p><button type="button">Say hello</button></p>
-</div>`;
 const tags = [
  ['h1–h6','Text','Headings, from main title to small subsections.','Headings give your page an outline people can scan.','<h1>My first website</h1>\n<h2>About me</h2>\n<h3>My favorite things</h3>','Use one h1 for the main title on most simple pages. Nest heading levels logically; don’t choose a level just for its size.'],
  ['p','Text','A paragraph of text.','Paragraphs divide ideas into readable pieces.','<p>I’m learning to build websites.</p>','Use separate paragraphs for separate ideas. Use CSS for spacing instead of extra line breaks.'],
@@ -108,25 +95,23 @@ $('#tag-search').addEventListener('input',renderTags);
 $('#filters').addEventListener('click',e=>{const b=e.target.closest('[data-category]');if(!b)return;category=b.dataset.category;$$('[data-category]').forEach(el=>el.setAttribute('aria-pressed',String(el===b)));renderTags()});
 $('#clear-search').addEventListener('click',()=>{$('#tag-search').value='';category='All tags';$$('[data-category]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.category===category)));renderTags();$('#tag-search').focus()});
 let activeTag;
-$('#tag-grid').addEventListener('click',e=>{const b=e.target.closest('[data-tag]');if(!b)return;activeTag=tags.find(t=>t.tag===b.dataset.tag);const t=activeTag;$('#dialog-category').textContent=`FIELD NOTES / ${t.category}`;$('#dialog-body').innerHTML=`<span class="dialog-tag-label">TAG</span><h2 id="dialog-title">&lt;${t.tag}&gt;</h2><h3>What it does</h3><p>${t.description} ${t.why}</p><div class="example-heading"><h3>Example</h3><button class="copy-button" data-copy="tag">Copy example ⧉</button></div><pre>${highlight(t.example)}</pre><div class="dialog-note"><h3>Important note</h3><p>${escapeHTML(t.note)}</p></div>`;$('#tag-dialog').showModal()});
+function openTag(tag){activeTag=tags.find(t=>t.tag===tag);if(!activeTag)return;const t=activeTag;$('#dialog-category').textContent=`FIELD NOTES / ${t.category}`;$('#dialog-body').innerHTML=`<span class="dialog-tag-label">TAG</span><h2 id="dialog-title">&lt;${t.tag}&gt;</h2><h3>What it does</h3><p>${t.description} ${t.why}</p><div class="example-heading"><h3>Example</h3><button class="copy-button" data-copy="tag">Copy example ⧉</button></div><pre>${highlight(t.example)}</pre><div class="dialog-note"><h3>Important note</h3><p>${escapeHTML(t.note)}</p></div>`;$('#tag-dialog').showModal()}
+$('#tag-grid').addEventListener('click',e=>{const b=e.target.closest('[data-tag]');if(b)openTag(b.dataset.tag)});
 $('#close-dialog').addEventListener('click',()=>$('#tag-dialog').close());
 $('#tag-dialog').addEventListener('click',e=>{if(e.target===$('#tag-dialog')){const r=e.target.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)e.target.close()}});
 let toastTimer;
 function toast(message){const el=$('#toast');el.textContent=message;el.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('visible'),2600)}
 async function copy(text){try{await navigator.clipboard.writeText(text);toast('Copied. Go make something.')}catch{const area=document.createElement('textarea');area.value=text;area.style.cssText='position:fixed;left:-9999px';($('#tag-dialog').open?$('#tag-dialog'):document.body).append(area);area.select();const success=document.execCommand('copy');area.remove();toast(success?'Copied. Go make something.':'Select the code and copy it with your keyboard.')}}
-document.addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(b)copy(({template,form:formCode,challenge:starter,tag:activeTag?.example})[b.dataset.copy])});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(b)copy(({template,form:formCode,tag:activeTag?.example})[b.dataset.copy])});
 function updateText(){const tag=$('#text-tag').value;const element=document.createElement(tag);element.textContent='Hello, possibility.';$('#text-preview').replaceChildren(element);$('#text-code').innerHTML=highlight(`<${tag}>Hello, possibility.</${tag}>`);$('#text-feedback').textContent=({h1:'One main heading. A clear place to start.',h2:'A section heading gives your page an outline.',p:'A paragraph is ready for your next idea.',strong:'This text carries strong importance.',em:'A little emphasis changes how this reads.'})[tag]}
 $('#text-tag').addEventListener('change',updateText);
 function updateList(tag){$('#list-preview').innerHTML=`<${tag}><li>Have an idea</li><li>Make a little thing</li><li>Keep exploring</li></${tag}>`;$('#list-code').innerHTML=highlight(`<${tag}>\n  <li>Have an idea</li>\n  <li>Make a little thing</li>\n  <li>Keep exploring</li>\n</${tag}>`);$$('[data-list]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.list===tag)));$('#list-feedback').textContent=tag==='ul'?'A collection of ideas. No particular order.':'A sequence of steps. Order matters.'}
 $$('[data-list]').forEach(b=>b.addEventListener('click',()=>updateList(b.dataset.list)));
 $('#contact-demo').addEventListener('submit',e=>{e.preventDefault();$('#form-feedback').textContent=`Hello, ${$('#contact-name').value.trim()||'friend'}! Your form is valid. Nothing was sent or saved.`});
-const previewStyle='<style>body{font:15px/1.55 Avenir Next,Segoe UI,sans-serif;color:#1c2922;padding:20px;margin:0}h1{font-family:Georgia,serif;font-weight:500;font-size:29px;letter-spacing:-1px;line-height:1.15}p{margin:12px 0}img{border-radius:12px}a{color:#26704d}button{background:#26704d;color:white;padding:9px 15px;border:0;border-radius:5px;font:inherit}ul{padding-left:23px}.card{max-width:360px;margin:auto}.featured{border-left:3px solid #26704d;padding-left:22px}</style>';
-function runPreview(notify=true){const code=$('#challenge-editor').value;$('#challenge-preview').srcdoc='<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; img-src https: http: data:; style-src \'unsafe-inline\';"><title>My profile preview</title>'+previewStyle+'</head><body>'+code+'</body></html>';if(notify){const parsed=new DOMParser().parseFromString(code,'text/html');const required=['h1','p','img','a','ul','div','[class]','button'];const missing=required.filter(s=>!parsed.querySelector(s)).map(s=>s==='[class]'?'class':s);$('#challenge-feedback').textContent=missing.length?`Preview updated. Still to try: ${missing.join(', ')}.`:'All 8 building blocks included! The preview adds a little CSS. The button needs JavaScript to respond.'}}
-$('#challenge-editor').value=starter;$('#run-preview').addEventListener('click',()=>runPreview());
-$$('[data-reset]').forEach(b=>b.addEventListener('click',()=>{switch(b.dataset.reset){case'text':$('#text-tag').value='h1';updateText();break;case'list':updateList('ul');break;case'form':$('#contact-demo').reset();$('#form-feedback').textContent='A button needs form behavior or JavaScript to perform an action.';break;case'challenge':$('#challenge-editor').value=starter;runPreview(false);$('#challenge-feedback').textContent='Starter restored. Try changing the name or interests.';}toast('Reset. A fresh start.')}));
+$$('[data-reset]').forEach(b=>b.addEventListener('click',()=>{switch(b.dataset.reset){case'text':$('#text-tag').value='h1';updateText();break;case'list':updateList('ul');break;case'form':$('#contact-demo').reset();$('#form-feedback').textContent='A button needs form behavior or JavaScript to perform an action.';break;}toast('Reset. A fresh start.')}));
 const rules=['Close tags when required: <p>Hello</p>.','Nest correctly: <p><em>Hello</em></p>.','Use one main h1 on most simple pages.','Put visible content inside body.','Write alt text for meaningful images.','Keep every id unique on the page.','Use lowercase tag names for consistency.','Put quotation marks around attribute values.','Void elements have no closing tag.'];
 $('#rules').innerHTML=rules.map(rule=>`<div class="rule"><span aria-hidden="true">✓</span><div>${escapeHTML(rule)}</div></div>`).join('');
 document.addEventListener('keydown',e=>{if(e.key==='/'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!$('#tag-dialog').open&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){e.preventDefault();$('#tag-search').focus();$('#reference').scrollIntoView()}});
 const observer=new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting){$$('.nav-inner a').forEach(a=>{const active=a.hash==='#'+entry.target.id;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current')})}}},{rootMargin:'-15% 0px -65% 0px'});
 $$('main > section[id], .reference-section').forEach(s=>observer.observe(s));
-renderTags();updateText();updateList('ul');runPreview(false);
+renderTags();updateText();updateList('ul');
