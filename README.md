@@ -1,40 +1,41 @@
 # HTML Field Guide
 
-A dependency-free, interactive HTML cheat sheet for beginner coders in Programming with AI. The design follows the supplied Interface Playground style: forest green, soft sage and warm cream surfaces, Georgia headings with Avenir Next / Segoe UI body type, and four hands-on learning labs.
+A dependency-free HTML reference and introduction activity for Programming with AI students. The design uses forest green, sage, warm cream, Georgia headings, and Avenir Next / Segoe UI body text.
 
-## Files
+## Run locally
 
-- `dist/index.html`: semantic page, lab controls, and challenge editor
-- `dist/style.css`: responsive layout, design tokens, and accessible focus styles
-- `dist/script.js`: 29 tag reference entries, syntax highlighting, search/filter, copy controls, dialogs, and isolated demos
-- `dist/missions.js`: five guided introduction missions, validation, session drafts, sandbox preview, and self-contained export
-- `dist/avatars.js` and `dist/avatars/*.svg`: three bundled avatar illustrations
-- `dist/profile.svg`: original reference illustration
-- `dist/favicon.svg`: browser icon
+Run `python3 -m http.server 4173 --directory dist`, then open http://localhost:4173. No installation or build step is required.
 
-## Preview
+## Introduction and computational thinking
 
-Run `python3 -m http.server 4173 --directory dist` from this folder, then open http://localhost:4173. No installation or build step is required.
+The five missions ask students to introduce themselves, define a research or coursework focus, model a procedure, design test cases, and link a relevant resource.
 
-The form is a local demonstration and does not transmit or store data. The introduction activity uses a sandboxed iframe with a restrictive content policy. Scripts, event handlers, and embedded active documents are removed from preview/export. Guided steps and the free-editing draft are kept separately in memory and reset on reload. Supplied avatars are embedded as SVG data URLs when copying a complete page, so no external image files are needed. The preview disables links; copied HTTP(S) links work. Other reference examples with media filenames require real files.
+- The workflow uses an input description, at least three ordered actions, and an output description.
+- The trace walks through the student's own text and highlights the corresponding step in the preview. It does not execute an algorithm, transform data, or infer an answer.
+- Test cases include both a typical input and an edge-case input, each with an expected result.
+- Reflection prompts ask students to identify dependencies, ambiguities, assumptions, and changes suggested by their tests.
+- Completion checks validate HTML structure and populated fields, not the correctness or quality of reasoning. Peer review and manual tracing are part of the activity.
 
-## Verified
+The avatar picker and its assets were removed from the activity. The HTML reference still teaches images and alt text.
 
-JavaScript syntax; browser rendering; tag search and empty results; modal open/Escape; clipboard copy; text and list demos; local form submission; challenge rendering; mobile horizontal overflow. No external runtime dependencies.
+## Source
 
-## Introduction mission checks
+- `dist/index.html` and `dist/style.css`: semantic interface and responsive styling.
+- `dist/script.js`: searchable tag reference, syntax highlighting, dialogs, clipboard, and original small demos.
+- `dist/missions.js`: mission content, validation, draft state, tracing, isolated preview, and complete-page export.
 
-Validated in the in-app browser:
+Drafts stay in memory and reset on reload. The experiment editor preserves a separate draft. Copy creates a complete HTML document with embedded CSS. Scripts, event handlers, and active embedded documents are removed from preview/export; a sandbox and restrictive content policy isolate the preview. HTTP(S) links work in copied pages and are inactive in the preview. No student data is submitted or persisted.
 
-- Empty heading, missing avatar description, one-item list, and non-HTTP link fail with actionable feedback.
-- Completing all five missions reveals the finished-page controls.
-- Editing a completed heading back to empty removes its completion check.
-- Resetting the interests mission preserves the story and other completed steps.
-- Switching avatars clears the old description and requires a fresh check.
-- Guided and experimental drafts remain independent; returning to experimentation preserves its edits.
-- Copy produces a complete document with CSS, an embedded SVG avatar, and an HTTP(S) link.
-- The embedded SVG loads in the sandbox preview. Scripts and event handlers are removed; the host page remains unchanged.
-- Tag help supports keyboard activation, Escape dismissal, and focus return.
-- The page fits 390px and 1280px viewports without page-level horizontal overflow.
+## Verification
 
-Independent viewing of the copied document was not completed: the test browser blocks data-URL navigation. Export structure and embedded-image rendering were verified separately. Student drafts are never persisted or transmitted.
+Browser checks cover:
+
+- Empty workflow rejection and disabled tracing until input, three steps, and output are present.
+- Correct ordered trace progression, matching preview highlighting, output comparison, and restart.
+- Missing test-case predictions rejected; populated typical and edge cases accepted.
+- Editing a completed workflow to fewer than three steps clears completion and disables tracing.
+- Five-step completion, self-contained exported document contents, and both workflow and test-case inclusion.
+- Workflow controls hidden in the separate experiment editor.
+- Contextual ordered-list help, keyboard opening, Escape dismissal, and responsive layout.
+
+Standalone exported-file viewing has not been independently verified; exported markup and embedded styles were inspected. JavaScript syntax and Git whitespace checks pass.
