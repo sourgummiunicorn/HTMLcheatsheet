@@ -1,6 +1,6 @@
 # HTML Field Guide
 
-A dependency-free, interactive HTML cheat sheet for beginner coders in Programming with AI. The design follows the supplied Interface Playground style: cobalt, lavender surfaces, editorial typography, and four hands-on learning labs.
+A dependency-free, interactive HTML cheat sheet for beginner coders in Programming with AI. The design follows the supplied Interface Playground style: forest green, soft sage and warm cream surfaces, Georgia headings with Avenir Next / Segoe UI body type, and four hands-on learning labs.
 
 ## Files
 
