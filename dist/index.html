@@ -26,7 +26,7 @@
   <ol id="mission-progress" class="mission-progress" aria-label="Introduction missions"></ol>
   <div id="mission-complete" class="mission-complete" hidden>
     <span class="completion-mark" aria-hidden="true">✳</span><div><h3>You made your introduction page!</h3><p>Your focus, a workflow, and two test cases. Copy it into a file named <code>index.html</code> to keep it.</p></div>
-    <div class="completion-actions"><button class="primary" id="copy-my-page">Copy my page ⧉</button><button class="light-button" id="experiment-page">Keep experimenting ↗</button></div>
+    <div class="completion-actions"><button class="primary" id="copy-my-page">Copy my page ⧉</button><button class="light-button" id="view-my-page">View / download HTML ↓</button><button class="light-button" id="experiment-page">Keep experimenting ↗</button></div>
   </div>
   <div class="mission-studio">
     <div class="mission-left">
@@ -36,7 +36,7 @@
         <div id="reasoning-prompt" class="reasoning-prompt" hidden><span class="eyebrow">THINK IT THROUGH</span><p id="reasoning-text"></p></div>
         <details id="mission-hint" class="mission-hint"><summary>Show a hint</summary><p id="mission-hint-text"></p><pre id="mission-example"></pre></details>
       </div>
-      <div id="experiment-controls" class="mission-prompt" hidden><div class="mission-topline"><span class="eyebrow">YOUR WORKING DRAFT</span><button id="back-to-missions" class="mission-help">← Back to missions</button></div><h3 tabindex="-1" id="experiment-title">Keep making it yours.</h3><p>This is a separate copy of your page. Change the HTML and see what happens. Your five mission snippets stay as you left them.</p><div class="experiment-actions"><button id="copy-experiment" class="primary">Copy this version ⧉</button><button id="restore-experiment" class="mission-help">Restore from missions ↺</button></div></div>
+      <div id="experiment-controls" class="mission-prompt" hidden><div class="mission-topline"><span class="eyebrow">YOUR WORKING DRAFT</span><button id="back-to-missions" class="mission-help">← Back to missions</button></div><h3 tabindex="-1" id="experiment-title">Keep making it yours.</h3><p>This is a separate copy of your page. Change the HTML and see what happens. Your five mission snippets stay as you left them.</p><div class="experiment-actions"><button id="copy-experiment" class="primary">Copy this version ⧉</button><button id="view-experiment" class="mission-help">View / download HTML ↓</button><button id="restore-experiment" class="mission-help">Restore from missions ↺</button></div></div>
       <div class="editor-pane mission-editor-pane"><label for="challenge-editor" class="editor-label"><span id="mission-editor-label">YOUR HTML</span><span>Preview updates as you type.</span></label><textarea id="challenge-editor" spellcheck="false" aria-describedby="mission-instruction challenge-help"></textarea></div>
       <div id="workflow-trace" class="workflow-trace" hidden>
         <div class="trace-topline"><span class="eyebrow">TRACE YOUR PROCEDURE</span><button id="trace-reset" class="mission-help" disabled>Restart trace ↺</button></div>
@@ -46,12 +46,18 @@
       </div>
       <div id="mission-step-controls" class="mission-step-controls"><div class="mission-check-row"><button id="reset-mission" class="mission-help">Reset this mission ↺</button><button id="check-mission" class="primary">Check my step ✓</button></div><p id="challenge-feedback" class="mission-feedback" role="status" aria-live="polite"></p><div class="mission-next-row"><span id="mission-next-note">Check your step when you’re ready.</span><button id="next-mission" class="primary" disabled aria-describedby="mission-next-note">Next mission →</button></div></div>
     </div>
-    <div class="preview-pane mission-preview"><div class="editor-label">YOUR INTRODUCTION <span>A little more you with every step.</span></div><iframe id="challenge-preview" sandbox title="Your introduction page preview"></iframe><div class="preview-caption">A little CSS is included to style your page. Links work in the copied page.</div></div>
+    <div class="preview-pane mission-preview"><div class="editor-label">YOUR INTRODUCTION <span>A little more you with every step.</span></div><iframe id="challenge-preview" sandbox="allow-popups allow-popups-to-escape-sandbox" title="Your introduction page preview"></iframe><div class="preview-caption">A little CSS is included to style your page. Valid links open in a new tab, keeping your work here.</div></div>
   </div>
   <p id="challenge-help" class="challenge-help">Edit the words between tags and the values inside quotation marks. Checks verify HTML structure and filled-in fields. They do not assess the correctness of your procedure or predictions; use the reflection prompts and peer review for that. Nothing is submitted or saved when you reload.</p>
 </div></section>
 <section class="wrap rules-section"><div><span class="eyebrow">BEFORE YOU CALL IT DONE</span><h2>Good habits.<br>Better HTML.</h2><p>A tiny checklist for your next creation.</p></div><div class="rules-grid" id="rules"></div></section>
 </main><footer class="wrap footer"><a class="brand footer-brand" href="#"><span class="brand-symbol">&lt;/&gt;</span> HTML FIELD GUIDE</a><span>A little reference. A lot of possibility.</span><a href="#">Back to top ↑</a></footer>
-<dialog id="tag-dialog" aria-labelledby="dialog-title"><div class="dialog-top"><span id="dialog-category" class="eyebrow"></span><button id="close-dialog" aria-label="Close tag details">✕</button></div><div id="dialog-body"></div></dialog><div id="toast" role="status" class="toast"></div>
+<dialog id="tag-dialog" aria-labelledby="dialog-title"><div class="dialog-top"><span id="dialog-category" class="eyebrow"></span><button id="close-dialog" aria-label="Close tag details">✕</button></div><div id="dialog-body"></div></dialog><dialog id="export-dialog" aria-labelledby="export-title" aria-describedby="export-help">
+  <div class="dialog-top"><span class="eyebrow">TAKE YOUR WORK WITH YOU</span><button id="close-export" type="button" aria-label="Close code export">✕</button></div>
+  <h2 id="export-title">Your HTML</h2><p id="export-help">Copy this code, or download it as an HTML file and open it in your browser.</p>
+  <label for="export-code">HTML source</label><textarea id="export-code" readonly spellcheck="false"></textarea>
+  <p id="export-status" role="status"></p>
+  <div class="export-actions"><button id="export-copy" class="primary" type="button">Copy code ⧉</button><button id="export-select" class="light-button" type="button">Select all</button><button id="export-download" class="light-button" type="button">Download HTML ↓</button></div>
+</dialog><div id="toast" role="status" class="toast"></div>
 <noscript><p class="wrap">Enable JavaScript to search tags and use the interactive examples. The page structure, core concepts, and form remain available above.</p></noscript>
 </body></html>

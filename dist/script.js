@@ -101,7 +101,50 @@ $('#close-dialog').addEventListener('click',()=>$('#tag-dialog').close());
 $('#tag-dialog').addEventListener('click',e=>{if(e.target===$('#tag-dialog')){const r=e.target.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)e.target.close()}});
 let toastTimer;
 function toast(message){const el=$('#toast');el.textContent=message;el.classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('visible'),2600)}
-async function copy(text){try{await navigator.clipboard.writeText(text);toast('Copied. Go make something.')}catch{const area=document.createElement('textarea');area.value=text;area.style.cssText='position:fixed;left:-9999px';($('#tag-dialog').open?$('#tag-dialog'):document.body).append(area);area.select();const success=document.execCommand('copy');area.remove();toast(success?'Copied. Go make something.':'Select the code and copy it with your keyboard.')}}
+let exportFilename = 'example.html';
+function selectExportCode() {
+  const field = $('#export-code'); field.focus(); field.select(); field.setSelectionRange(0, field.value.length);
+}
+function showCodeExport(text, options = {}) {
+  exportFilename = options.filename || 'example.html';
+  $('#export-title').textContent = options.title || 'Your HTML';
+  $('#export-code').value = text;
+  $('#export-status').textContent = 'Select all and use ⌘C on Mac or Ctrl+C on Windows, or download the HTML file.';
+  if (!$('#export-dialog').open) $('#export-dialog').showModal();
+  selectExportCode();
+}
+async function copy(text, options = {}) {
+  if (typeof text !== 'string') return false;
+  let clipboardWrite;
+  try {
+    // Request clipboard access directly in the click gesture, before opening a modal.
+    if (navigator.clipboard?.writeText) clipboardWrite = navigator.clipboard.writeText(text);
+  } catch {}
+  if (options.show || !clipboardWrite) showCodeExport(text, options);
+  if ($('#export-dialog').open && $('#export-code').value === text) $('#export-status').textContent = 'Copying… You can also press ⌘C / Ctrl+C on the selected code, or download the file.';
+  try {
+    if (!clipboardWrite) throw new Error('Clipboard unavailable');
+    await clipboardWrite;
+    toast('HTML copied. Paste it into your editor.');
+    if ($('#export-dialog').open && $('#export-code').value === text) $('#export-status').textContent = 'Copied! Paste into your editor and save as ' + exportFilename + '.';
+    return true;
+  } catch {
+    showCodeExport(text, options);
+    $('#export-status').textContent = 'Your browser did not allow automatic copying. Press ⌘C / Ctrl+C on the selected code, or choose Download HTML.';
+    return false;
+  }
+}
+$('#close-export').addEventListener('click', () => $('#export-dialog').close());
+$('#export-select').addEventListener('click', selectExportCode);
+$('#export-copy').addEventListener('click', () => copy($('#export-code').value, {filename:exportFilename, title:$('#export-title').textContent}));
+$('#export-download').addEventListener('click', () => {
+  const blob = new Blob([$('#export-code').value], {type:'text/html;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a'); link.href = url; link.download = exportFilename;
+  document.body.append(link); link.click(); link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+  $('#export-status').textContent = 'Download requested: ' + exportFilename + '. Open it in your browser to view your page.';
+});
 document.addEventListener('click',e=>{const b=e.target.closest('[data-copy]');if(b)copy(({template,form:formCode,tag:activeTag?.example})[b.dataset.copy])});
 function updateText(){const tag=$('#text-tag').value;const element=document.createElement(tag);element.textContent='Hello, possibility.';$('#text-preview').replaceChildren(element);$('#text-code').innerHTML=highlight(`<${tag}>Hello, possibility.</${tag}>`);$('#text-feedback').textContent=({h1:'One main heading. A clear place to start.',h2:'A section heading gives your page an outline.',p:'A paragraph is ready for your next idea.',strong:'This text carries strong importance.',em:'A little emphasis changes how this reads.'})[tag]}
 $('#text-tag').addEventListener('change',updateText);
@@ -111,7 +154,7 @@ $('#contact-demo').addEventListener('submit',e=>{e.preventDefault();$('#form-fee
 $$('[data-reset]').forEach(b=>b.addEventListener('click',()=>{switch(b.dataset.reset){case'text':$('#text-tag').value='h1';updateText();break;case'list':updateList('ul');break;case'form':$('#contact-demo').reset();$('#form-feedback').textContent='A button needs form behavior or JavaScript to perform an action.';break;}toast('Reset. A fresh start.')}));
 const rules=['Close tags when required: <p>Hello</p>.','Nest correctly: <p><em>Hello</em></p>.','Use one main h1 on most simple pages.','Put visible content inside body.','Write alt text for meaningful images.','Keep every id unique on the page.','Use lowercase tag names for consistency.','Put quotation marks around attribute values.','Void elements have no closing tag.'];
 $('#rules').innerHTML=rules.map(rule=>`<div class="rule"><span aria-hidden="true">✓</span><div>${escapeHTML(rule)}</div></div>`).join('');
-document.addEventListener('keydown',e=>{if(e.key==='/'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!$('#tag-dialog').open&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){e.preventDefault();$('#tag-search').focus();$('#reference').scrollIntoView()}});
+document.addEventListener('keydown',e=>{if(e.key==='/'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!$('#tag-dialog').open&&!$('#export-dialog').open&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){e.preventDefault();$('#tag-search').focus();$('#reference').scrollIntoView()}});
 const observer=new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting){$$('.nav-inner a').forEach(a=>{const active=a.hash==='#'+entry.target.id;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current')})}}},{rootMargin:'-15% 0px -65% 0px'});
 $$('main > section[id], .reference-section').forEach(s=>observer.observe(s));
 renderTags();updateText();updateList('ul');

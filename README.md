@@ -24,7 +24,7 @@ The avatar picker and its assets were removed from the activity. The HTML refere
 - `dist/script.js`: searchable tag reference, syntax highlighting, dialogs, clipboard, and original small demos.
 - `dist/missions.js`: mission content, validation, draft state, tracing, isolated preview, and complete-page export.
 
-Drafts stay in memory and reset on reload. The experiment editor preserves a separate draft. Copy creates a complete HTML document with embedded CSS. Scripts, event handlers, and active embedded documents are removed from preview/export; a sandbox and restrictive content policy isolate the preview. HTTP(S) links work in copied pages and are inactive in the preview. No student data is submitted or persisted.
+Drafts stay in memory and reset on reload. The experiment editor preserves a separate draft. Copy creates a complete HTML document with embedded CSS. Scripts, event handlers, and active embedded documents are removed from preview/export; a sandbox and restrictive content policy isolate the preview. HTTP(S) links work in both copied pages and the preview, opening in a separate tab with noopener/noreferrer. The iframe allows popups without granting scripts or same-origin access to learner content. No student data is submitted or persisted.
 
 ## Verification
 
@@ -38,4 +38,11 @@ Browser checks cover:
 - Workflow controls hidden in the separate experiment editor.
 - Contextual ordered-list help, keyboard opening, Escape dismissal, and responsive layout.
 
-Standalone exported-file viewing has not been independently verified; exported markup and embedded styles were inspected. JavaScript syntax and Git whitespace checks pass.
+Exported markup and embedded styles were inspected. The browser downloaded the complete HTML file successfully; standalone rendering of that downloaded file was not separately checked. JavaScript syntax and Git whitespace checks pass.
+
+## Copy and link regression checks
+
+- Copy now invokes the Clipboard API in the original click gesture. The misleading legacy execCommand success path was removed.
+- Finished-page copying opens a visible, selected HTML export with retry, select-all, and download controls. Missing or rejected clipboard access preserves the code and explains keyboard copying.
+- `node --test tests/copy.test.cjs` verifies exact writes, rejected promises, unavailable APIs, and synchronous clipboard exceptions.
+- Browser checks confirmed exact clipboard equality, a downloaded `index.html` containing the test profile, and a final-step preview link opening its actual destination in a separate tab.

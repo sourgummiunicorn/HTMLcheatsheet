@@ -114,7 +114,7 @@
       const href = a.getAttribute('href') || '';
       let allowed = false;
       try { allowed = ['http:', 'https:'].includes(new URL(href).protocol); } catch {}
-      if (preview || !allowed) { a.removeAttribute('href'); a.classList.add('preview-link'); }
+      if (!allowed) { a.removeAttribute('href'); a.classList.add('preview-link'); }
       else { a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener noreferrer'); }
     });
     if (preview && mode === 'guided' && current === 2 && traceStep >= 0) {
@@ -229,8 +229,11 @@
     if (current === 2) traceStep = -1;
     selectMission(current); setFeedback('A fresh start for this mission. Your other steps are unchanged.'); editor.focus();
   });
-  $('#copy-my-page').addEventListener('click', () => copy(makeDocument(assembled())));
-  $('#copy-experiment').addEventListener('click', () => copy(makeDocument(experimentDraft)));
+  const pageExportOptions = {filename:'index.html', title:'Your introduction HTML', show:true};
+  $('#copy-my-page').addEventListener('click', () => copy(makeDocument(assembled()), pageExportOptions));
+  $('#view-my-page').addEventListener('click', () => showCodeExport(makeDocument(assembled()), pageExportOptions));
+  $('#copy-experiment').addEventListener('click', () => copy(makeDocument(experimentDraft), pageExportOptions));
+  $('#view-experiment').addEventListener('click', () => showCodeExport(makeDocument(experimentDraft), pageExportOptions));
   $('#experiment-page').addEventListener('click', () => {
     clearTimeout(previewTimer);
     if (experimentDraft === null) experimentDraft = assembled();
