@@ -38,3 +38,16 @@
 .window-bar,.preview-pane .editor-label,.preview-caption{background:#DCEAD8}
 .code-window,.window-bar,.classes-panel pre,.form-studio form,#dialog-body pre,.editor-pane,.mission-editor-pane,.mission-editor-pane .editor-label,.mission-editor-pane textarea,.workflow-trace,#export-code,.mission-studio,.mission-prompt,.mission-preview,.mission-hint pre,.trace-reading{border-color:#B9CFB7}
 .code-window{box-shadow:4px 4px 0 #E8C6D1}
+
+/* Restored original palette: forest green, sage, and warm cream. */
+:root{--ink:#1C2922;--muted:#5B665D;--accent:#26704D;--deep:#195537;--soft:#EDF3E7;--canvas:#F8F7F1;--line:#D8DFD2;--white:#FFF}
+.primary{background:#26704D}.primary:hover{background:#195537}
+.section-nav{background:#F8F7F1F5}
+.window-bar,.preview-pane .editor-label,.preview-caption{background:#F0F2E9}
+.code-window,.classes-panel pre,.form-studio form,#dialog-body pre,.workflow-trace,#export-code,.mission-studio,.mission-prompt,.mission-preview,.mission-hint pre,.trace-reading{background:#FFF;border-color:#D8DFD2}
+.code-window{box-shadow:4px 4px 0 #E5E8DC}
+.editor-pane,.mission-editor-pane{background:#24372B;color:#D2DFC8}
+.editor-pane .editor-label,.mission-editor-pane .editor-label{color:#D2DFC8;border-color:#445D4A}
+.editor-pane .editor-label span{color:#A5B89B}
+.editor-pane textarea,.mission-editor-pane textarea{color:#D3E9B7;border-color:#445D4A}
+.editor-bottom{border-color:#445D4A}
