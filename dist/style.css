@@ -132,3 +132,8 @@ dialog::backdrop{background:#0A038E85}
 .preview-pane,.mission-preview{border-color:#8ABEDB}
 #challenge-feedback{color:#BDEBFF}
 @media(max-width:760px){.mission-preview{border-color:#8ABEDB}}
+
+/* A geometric display face for the opening statement only. */
+.hero h1{font-family:"Orbitron","Futura","Century Gothic",sans-serif;font-weight:700;font-size:clamp(36px,4.3vw,60px);line-height:1.18;letter-spacing:-.045em}
+.hero h1 span{font-style:italic}
+@media(max-width:760px){.hero h1{font-size:clamp(29px,7.6vw,42px);letter-spacing:-.055em}}
