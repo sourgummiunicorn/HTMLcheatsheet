@@ -32,3 +32,9 @@
 .editor-pane .editor-label,.mission-editor-pane .editor-label,.editor-pane textarea,.mission-editor-pane textarea{color:#1C2922;border-color:#D8E1D4}
 .editor-pane .editor-label span{color:#5B665D}
 .editor-bottom{border-color:#D8E1D4}
+
+/* Clear teaching surfaces within the pink-and-sage palette. */
+.section-nav{background:#DCEAD8F5}
+.window-bar,.preview-pane .editor-label,.preview-caption{background:#DCEAD8}
+.code-window,.window-bar,.classes-panel pre,.form-studio form,#dialog-body pre,.editor-pane,.mission-editor-pane,.mission-editor-pane .editor-label,.mission-editor-pane textarea,.workflow-trace,#export-code,.mission-studio,.mission-prompt,.mission-preview,.mission-hint pre,.trace-reading{border-color:#B9CFB7}
+.code-window{box-shadow:4px 4px 0 #E8C6D1}
