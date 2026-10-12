@@ -1,6 +1,6 @@
 # HTML Field Guide
 
-A dependency-free HTML reference and introduction activity for Programming with AI students. The design uses a four-blue palette sampled from the supplied reference (`#0A038E`, `#2C64E8`, `#27B5F5`, `#9AE2FE`), Georgia headings, and Avenir Next / Segoe UI body text. Generated page previews keep black text for readability.
+A dependency-free HTML reference and introduction activity for Programming with AI students. The design uses three blues sampled from the supplied reference (`#0A038E`, `#2C64E8`, `#27B5F5`) and a lightened sky blue (`#BDEBFF`), Georgia headings, and Avenir Next / Segoe UI body text. Generated page previews keep black text for readability.
 
 ## Run locally
 
