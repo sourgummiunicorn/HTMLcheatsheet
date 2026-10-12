@@ -3,64 +3,42 @@
   const missions = [
   {
     "title": "Introduce yourself",
-    "prompt": "Introduce yourself by name or preferred name. This heading will anchor a short profile of you and how you approach your work.",
-    "hint": "A name or preferred name is enough. Your introduction does not need your full biography.",
+    "prompt": "Type an HTML main heading that introduces you by name or preferred name. Use an h1 opening tag and a closing tag around the name.",
+    "hint": "Look up the heading tag in Find your tag if you need a refresher. Put your name between the opening and closing tags.",
     "success": "Your introduction has a main heading.",
-    "retry": "Add your name or preferred name in the field."
+    "retry": "Type your name inside a complete h1 element, including its closing tag."
   },
   {
     "title": "Define your focus",
-    "prompt": "What question, project, or research area motivates you? Describe your focus and what you hope to understand in one or two sentences.",
-    "hint": "Move from a broad topic to a specific question. Name what you want to understand, compare, or create. A project from your coursework works too.",
+    "prompt": "Write an HTML paragraph about the question, project, or research area that motivates you. Type the p opening and closing tags yourself.",
+    "hint": "Move from a broad topic to a specific question. Put one or two sentences between the paragraph tags.",
     "success": "Your profile now explains the question behind your work.",
-    "retry": "Write a short description of your focus."
+    "retry": "Write your focus inside a complete p element, including its closing tag."
   },
   {
     "title": "Model your approach",
-    "prompt": "Choose a recurring task from your research or coursework. Identify its input, break the process into at least three actionable steps, and define its output. Then trace the steps in order.",
-    "hint": "Use one action per step. Ask what each step needs from the previous step. The trace follows your written steps; it does not execute or evaluate them.",
+    "prompt": "Code a section for a recurring task from your research or coursework. Describe its input and output in paragraphs, and place at least three actions in an ordered list. Type and close the section, paragraph, list, and list-item tags yourself.",
+    "hint": "An ordered list uses ol, with one li element per action. Put an input paragraph before the list and an output paragraph after it. The trace follows your written steps; it does not execute them.",
     "success": "The workflow has an input, at least three steps, and an output. Trace it and check whether each step has what it needs.",
-    "retry": "Describe an input, three actions, and an output.",
+    "retry": "Add a section with an input paragraph, an ordered list of three complete items, and an output paragraph. Close each tag.",
     "reflection": "Could a colleague follow these steps without guessing? Identify an assumption, an ambiguous action, or a dependency you need to make explicit."
   },
   {
     "title": "Test your approach",
-    "prompt": "Design two test cases for your workflow: one typical input and one edge case, such as missing data, duplicates, or no results. Predict an outcome for each before tracing the steps.",
-    "hint": "For each case, describe what goes in and what you expect to happen. If the edge case breaks your method, revisit mission 3 and improve it.",
+    "prompt": "Code an unordered list with two items: a typical case and an edge case. In each item, add one paragraph for the input and another for the expected result. Type and close the tags yourself.",
+    "hint": "An unordered list uses ul and each case uses li. Add two p elements inside each item. If the edge case breaks your method, revisit mission 3.",
     "success": "Both cases contain an input and an expected result. Compare them with your workflow; this check does not judge whether the predictions are correct.",
-    "retry": "Complete the input and expected result for both the typical and edge cases.",
+    "retry": "Add two complete list items, each with an input paragraph and an expected-result paragraph. Close each tag.",
     "reflection": "Trace your edge case through mission 3. At which step does the input challenge an assumption? Revise the procedure or explain why no change is needed."
   },
   {
     "title": "Connect your work",
-    "prompt": "Link to a resource that informs your work: a paper, dataset, method, professional page, or tool. Use link text that tells a reader why the resource is relevant.",
-    "hint": "Use a full https:// or http:// address and name the resource rather than writing “click here.”",
+    "prompt": "Code a link to a resource that informs your work. Type an a element with an href attribute, meaningful link text, and a closing tag.",
+    "hint": "Use a full https:// or http:// address for href. Name the resource rather than writing “click here.”",
     "success": "Your profile now connects readers to a relevant resource.",
-    "retry": "Add a full web address and a meaningful name for the resource."
+    "retry": "Add a complete a element with a full web address, meaningful link text, and a closing tag."
   }
 ];
-  const fields = [
-    [{label:'Your name or preferred name', placeholder:'Alex', type:'text'}],
-    [{label:'Your question, project, or research focus', placeholder:'What are you curious about?', type:'textarea'}],
-    [
-      {label:'Input — what do you start with?', placeholder:'Materials, data, or a question', type:'textarea'},
-      {label:'Action 1', placeholder:'What do you do first?', type:'text'},
-      {label:'Action 2', placeholder:'What happens next?', type:'text'},
-      {label:'Action 3', placeholder:'How do you finish?', type:'text'},
-      {label:'Output — what should you have at the end?', placeholder:'The result of your steps', type:'textarea'}
-    ],
-    [
-      {label:'Typical case — input', placeholder:'A common situation', type:'textarea'},
-      {label:'Typical case — expected result', placeholder:'What should happen?', type:'textarea'},
-      {label:'Edge case — input', placeholder:'An unusual or difficult situation', type:'textarea'},
-      {label:'Edge case — expected result', placeholder:'What should happen then?', type:'textarea'}
-    ],
-    [
-      {label:'Resource web address', placeholder:'https://example.com', type:'url'},
-      {label:'Name of the resource', placeholder:'A resource that informs my work', type:'text'}
-    ]
-  ];
-  const responses = fields.map(group => group.map(() => ''));
   const drafts = missions.map(() => '');
   const checked = missions.map(() => false);
   const visited = new Set([0]);
@@ -78,42 +56,34 @@
     clone.querySelectorAll('script, style, template').forEach(e => e.remove());
     return !!clone.textContent.trim();
   };
-  function buildMissionHTML(index) {
-    const values = responses[index].map(value => escapeHTML(value.trim()));
-    if (!values.some(Boolean)) return '';
-    if (index === 0) return `<h1>${values[0]}</h1>`;
-    if (index === 1) return `<p>${values[0]}</p>`;
-    if (index === 2) {
-      const [input, first, second, third, output] = values;
-      const steps = [first, second, third].filter(Boolean);
-      return `<section class="workflow">\n  <h2>How I approach a problem</h2>${input ? `\n  <h3>Input</h3>\n  <p class="input">${input}</p>` : ''}${steps.length ? `\n  <h3>Process</h3>\n  <ol>\n${steps.map(step => `    <li>${step}</li>`).join('\n')}\n  </ol>` : ''}${output ? `\n  <h3>Output</h3>\n  <p class="output">${output}</p>` : ''}\n</section>`;
-    }
-    if (index === 3) {
-      const [typicalInput, typicalExpected, edgeInput, edgeExpected] = values;
-      const caseHTML = (kind, title, input, expected) => input || expected ? `\n    <li class="${kind}">\n      <h3>${title}</h3>${input ? `\n      <p class="input">${input}</p>` : ''}${expected ? `\n      <p class="expected">${expected}</p>` : ''}\n    </li>` : '';
-      return `<section class="test-cases">\n  <h2>Testing my approach</h2>\n  <ul>${caseHTML('typical', 'Typical case', typicalInput, typicalExpected)}${caseHTML('edge', 'Edge case', edgeInput, edgeExpected)}\n  </ul>\n</section>`;
-    }
-    return `<a href="${values[0]}">${values[1]}</a>`;
-  }
-  function renderGuidedFields() {
-    const panel = $('#guided-fields');
-    panel.innerHTML = fields[current].map((field, index) => `<label class="guided-field" for="mission-response-${index}"><span>${escapeHTML(field.label)}</span>${field.type === 'textarea' ? `<textarea id="mission-response-${index}" data-response="${index}" rows="3" placeholder="${escapeHTML(field.placeholder)}"></textarea>` : `<input id="mission-response-${index}" data-response="${index}" type="${field.type}" placeholder="${escapeHTML(field.placeholder)}">`}</label>`).join('');
-    panel.querySelectorAll('[data-response]').forEach((input, index) => { input.value = responses[current][index]; });
-  }
   function workflowNodes(dom) {
     const sections = [...dom.querySelectorAll('section')];
-    const ready = sections.find(section => hasText(section.querySelector('p.input')) && hasText(section.querySelector('p.output')) && [...section.querySelectorAll('ol')].some(ol => [...ol.children].filter(li => li.tagName === 'LI' && hasText(li)).length >= 3));
+    const ready = sections.find(section => {
+      const paragraphs = [...section.querySelectorAll('p')].filter(p => !p.closest('ol'));
+      return paragraphs.length >= 2 && hasText(paragraphs[0]) && hasText(paragraphs.at(-1)) && [...section.querySelectorAll('ol')].some(ol => [...ol.children].filter(li => li.tagName === 'LI' && hasText(li)).length >= 3);
+    });
     const section = ready || sections[0];
     const lists = [...(section?.querySelectorAll('ol') || [])];
     const list = lists.find(ol => [...ol.children].filter(li => li.tagName === 'LI' && hasText(li)).length >= 3) || lists[0];
-    return {input: section?.querySelector('p.input'), output: section?.querySelector('p.output'), steps: [...(list?.children || [])].filter(li => li.tagName === 'LI' && hasText(li))};
+    const paragraphs = [...(section?.querySelectorAll('p') || [])].filter(p => !p.closest('ol'));
+    return {input: paragraphs[0], output: paragraphs.at(-1), list, steps: [...(list?.children || [])].filter(li => li.tagName === 'LI' && hasText(li))};
+  }
+  function pairedTagCount(code, tag) {
+    const openings = [...code.matchAll(new RegExp(`<${tag}(?=[\\s>])[^>]*>`, 'gi'))].length;
+    const closings = [...code.matchAll(new RegExp(`</${tag}\\s*>`, 'gi'))].length;
+    return openings > 0 && openings === closings ? openings : 0;
   }
   function valid(index) {
-    const dom = fragment(drafts[index]);
-    if (index === 0) return [...dom.querySelectorAll('h1')].some(hasText);
-    if (index === 1) return [...dom.querySelectorAll('p')].some(hasText);
-    if (index === 2) { const workflow = workflowNodes(dom); return hasText(workflow.input) && hasText(workflow.output) && workflow.steps.length >= 3; }
-    if (index === 3) return [...dom.querySelectorAll('ul')].some(ul => ['typical', 'edge'].every(kind => [...ul.children].some(li => li.tagName === 'LI' && li.classList.contains(kind) && hasText(li.querySelector('p.input')) && hasText(li.querySelector('p.expected')))));
+    const code = drafts[index];
+    const dom = fragment(code);
+    if (index === 0) return pairedTagCount(code, 'h1') > 0 && [...dom.querySelectorAll('h1')].some(hasText);
+    if (index === 1) return pairedTagCount(code, 'p') > 0 && [...dom.querySelectorAll('p')].some(hasText);
+    if (index === 2) {
+      const workflow = workflowNodes(dom);
+      return pairedTagCount(code, 'section') > 0 && pairedTagCount(code, 'ol') > 0 && pairedTagCount(code, 'p') >= 2 && pairedTagCount(code, 'li') >= 3 && hasText(workflow.input) && hasText(workflow.output) && workflow.steps.length >= 3 && !!(workflow.input.compareDocumentPosition(workflow.list) & Node.DOCUMENT_POSITION_FOLLOWING) && !!(workflow.list.compareDocumentPosition(workflow.output) & Node.DOCUMENT_POSITION_FOLLOWING);
+    }
+    if (index === 3) return pairedTagCount(code, 'ul') > 0 && pairedTagCount(code, 'li') >= 2 && pairedTagCount(code, 'p') >= 4 && [...dom.querySelectorAll('ul')].some(ul => [...ul.children].filter(li => li.tagName === 'LI' && [...li.querySelectorAll('p')].filter(hasText).length >= 2).length >= 2);
+    if (!pairedTagCount(code, 'a')) return false;
     return [...dom.querySelectorAll('a[href]')].some(a => {
       if (!hasText(a)) return false;
       try { const url = new URL(a.getAttribute('href').trim()); return ['http:', 'https:'].includes(url.protocol) && !!url.hostname; } catch { return false; }
@@ -185,7 +155,7 @@
       if (step) step.classList.add('trace-active');
     }
     const container = document.createElement('div'); container.append(dom);
-    const empty = preview && !container.textContent.trim() && !container.querySelector('img') ? `<p class="empty-introduction">Your story starts with a hello.<br>${mode === 'guided' ? 'Fill in a field to see it here.' : 'Type in the editor to see it here.'}</p>` : '';
+    const empty = preview && !container.textContent.trim() && !container.querySelector('img') ? '<p class="empty-introduction">Your story starts with a hello.<br>Type in the editor to see it here.</p>' : '';
     const previewCSS = preview ? '.mission-fragment{padding:8px 12px;margin:0 -12px 8px;min-height:8px}.current-fragment{background:#e9f8ff;outline:1px dashed #2C64E8;border-radius:8px}.trace-active{background:#BDEBFF;outline:2px solid #0A038E;border-radius:4px}.empty-introduction{color:#000;font-size:14px;text-align:center;padding:54px 0}' : '';
     return `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; form-action 'none'; base-uri 'none';">\n  <title>My introduction</title>\n  <style>${pageCSS}${previewCSS}</style>\n</head>\n<body>\n${container.innerHTML}${empty}\n</body>\n</html>`;
   }
@@ -240,8 +210,7 @@
     $('#guided-controls').hidden = false;
     $('#experiment-controls').hidden = true;
     $('#mission-step-controls').hidden = false;
-    $('#guided-fields').hidden = false;
-    $('#mission-editor-pane').hidden = true;
+    $('#mission-editor-pane').hidden = false;
     $('#mission-kicker').textContent = `MISSION ${index + 1} / 5`;
     $('#mission-title').textContent = mission.title + '.';
     $('#mission-instruction').textContent = mission.prompt;
@@ -250,7 +219,10 @@
     $('#workflow-trace').hidden = index !== 2;
     $('#reasoning-prompt').hidden = !mission.reflection;
     $('#reasoning-text').textContent = mission.reflection || '';
-    renderGuidedFields();
+    editor.classList.toggle('structured-mission-editor', index === 2 || index === 3);
+    $('#mission-editor-label').textContent = 'YOUR HTML';
+    editor.value = drafts[index];
+    editor.setAttribute('aria-describedby', 'mission-instruction challenge-help');
     editor.classList.remove('full-page-editor');
     setFeedback(checked[index] ? mission.success : '', checked[index]);
     updateTrace(); renderProgress(); renderPreview();
@@ -258,19 +230,13 @@
   }
   $('#mission-progress').innerHTML = missions.map((m, i) => `<li><button type="button" data-mission="${i}"><span class="mission-step-number">${i + 1}</span><span>${m.title}</span></button></li>`).join('');
   $('#mission-progress').addEventListener('click', e => { const b = e.target.closest('[data-mission]'); if (b) selectMission(Number(b.dataset.mission), true); });
-  $('#guided-fields').addEventListener('input', e => {
-    const field = e.target.closest('[data-response]');
-    if (!field) return;
-    responses[current][Number(field.dataset.response)] = field.value;
-    drafts[current] = buildMissionHTML(current);
-    if (checked[current]) checked[current] = valid(current);
-    if (current === 2) traceStep = -1;
-    setFeedback(''); updateTrace(); renderProgress();
-    clearTimeout(previewTimer); previewTimer = setTimeout(renderPreview, 300);
-  });
   editor.addEventListener('input', () => {
-    if (mode !== 'experiment') return;
-    experimentDraft = editor.value;
+    if (mode === 'guided') {
+      drafts[current] = editor.value;
+      if (checked[current]) checked[current] = valid(current);
+      if (current === 2) traceStep = -1;
+      setFeedback(''); updateTrace(); renderProgress();
+    } else experimentDraft = editor.value;
     clearTimeout(previewTimer); previewTimer = setTimeout(renderPreview, 300);
   });
   $('#trace-next').addEventListener('click', () => {
@@ -291,9 +257,9 @@
     else { $('#finished-code').scrollIntoView({block:'start'}); $('#copy-finished-code').focus({preventScroll:true}); }
   });
   $('#reset-mission').addEventListener('click', () => {
-    responses[current].fill(''); drafts[current] = ''; checked[current] = false;
+    drafts[current] = ''; checked[current] = false;
     if (current === 2) traceStep = -1;
-    selectMission(current); setFeedback('A fresh start for this mission. Your other steps are unchanged.'); $('#guided-fields [data-response]').focus();
+    selectMission(current); setFeedback('A fresh start for this mission. Your other steps are unchanged.'); editor.focus();
   });
   const pageExportOptions = {filename:'index.html', title:'Your introduction HTML', show:true};
   $('#copy-my-page').addEventListener('click', () => copy(makeDocument(assembled()), pageExportOptions));
@@ -316,7 +282,7 @@
     $('#workflow-trace').hidden = true;
     editor.classList.remove('structured-mission-editor');
     $('#guided-controls').hidden = true; $('#experiment-controls').hidden = false; $('#mission-step-controls').hidden = true;
-    $('#guided-fields').hidden = true; $('#mission-editor-pane').hidden = false;
+    $('#mission-editor-pane').hidden = false;
     $('#mission-editor-label').textContent = 'YOUR PAGE HTML';
     editor.setAttribute('aria-describedby', 'experiment-title challenge-help');
     editor.classList.add('full-page-editor'); editor.value = experimentDraft;

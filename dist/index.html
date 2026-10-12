@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
   <link rel="icon" href="favicon.svg?v=blue-light-20261012" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css?v=finished-code-20261012">
+  <link rel="stylesheet" href="style.css?v=type-your-own-tags-20261012">
   <script src="script.js" defer></script>
-  <script src="missions.js?v=plain-language-missions-20261012" defer></script>
+  <script src="missions.js?v=type-your-own-tags-20261012" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -40,8 +40,7 @@
         <details id="mission-hint" class="mission-hint"><summary>Show a hint</summary><p id="mission-hint-text"></p></details>
       </div>
       <div id="experiment-controls" class="mission-prompt" hidden><div class="mission-topline"><span class="eyebrow">YOUR WORKING DRAFT</span><button id="back-to-missions" class="mission-help">← Back to missions</button></div><h3 tabindex="-1" id="experiment-title">Keep making it yours.</h3><p>This is a separate copy of your page. Change the HTML and see what happens. Your five mission snippets stay as you left them.</p><div class="experiment-actions"><button id="copy-experiment" class="primary">Copy this version ⧉</button><button id="view-experiment" class="mission-help">View / download HTML ↓</button><button id="restore-experiment" class="mission-help">Restore from missions ↺</button></div></div>
-      <div id="guided-fields" class="guided-fields" aria-describedby="mission-instruction challenge-help"></div>
-      <div id="mission-editor-pane" class="editor-pane mission-editor-pane" hidden><label for="challenge-editor" class="editor-label"><span id="mission-editor-label">YOUR HTML</span><span>Preview updates as you type.</span></label><textarea id="challenge-editor" spellcheck="false" aria-describedby="experiment-title challenge-help"></textarea></div>
+      <div id="mission-editor-pane" class="editor-pane mission-editor-pane"><label for="challenge-editor" class="editor-label"><span id="mission-editor-label">YOUR HTML</span><span>Start with a blank editor. Preview updates as you type.</span></label><textarea id="challenge-editor" spellcheck="false" aria-describedby="mission-instruction challenge-help"></textarea></div>
       <div id="workflow-trace" class="workflow-trace" hidden>
         <div class="trace-topline"><span class="eyebrow">TRACE YOUR PROCEDURE</span><button id="trace-reset" class="mission-help" disabled>Restart trace ↺</button></div>
         <div class="trace-reading"><span id="trace-position" class="eyebrow"></span><p id="trace-content"></p></div>
@@ -60,7 +59,7 @@
       <p id="finished-code-status" role="status">Save the file, then open it in your browser to see your page.</p>
     </div>
   </section>
-  <p id="challenge-help" class="challenge-help">Fill in each field in your own words. The site builds your HTML as you go and shows the full file after all five missions. Checks confirm that the required fields are filled in; they do not assess the correctness of your procedure or predictions. Use the reflection prompts and peer review for that. Nothing is submitted or saved when you reload.</p>
+  <p id="challenge-help" class="challenge-help">Type the HTML for each mission yourself. The editor starts blank; use Find your tag above whenever you want to explore. Your full file appears after all five missions. Checks confirm the requested structure and content, but they do not assess the quality of your procedure or predictions. Nothing is submitted or saved when you reload.</p>
 </div></section>
 <section class="wrap rules-section"><div><span class="eyebrow">BEFORE YOU CALL IT DONE</span><h2>Good habits.<br>Better HTML.</h2><p>A tiny checklist for your next creation.</p></div><div class="rules-grid" id="rules"></div></section>
 </main><footer class="wrap footer"><a class="brand footer-brand" href="#"><span class="brand-symbol">&lt;/&gt;</span> HTML FIELD GUIDE</a><span>A little reference. A lot of possibility.</span><a href="#">Back to top ↑</a></footer>
