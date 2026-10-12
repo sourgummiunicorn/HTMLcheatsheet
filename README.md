@@ -15,6 +15,7 @@ The five missions ask students to introduce themselves, define a research or cou
 - Test cases include both a typical input and an edge-case input, each with an expected result.
 - Reflection prompts ask students to identify dependencies, ambiguities, assumptions, and changes suggested by their tests.
 - Completion checks validate HTML structure and populated fields, not the correctness or quality of reasoning. Peer review and manual tracing are part of the activity.
+- Completing all five missions reveals the full, self-contained `index.html` below the activity, with copy and select-all controls for pasting into VS Code. The code updates if a completed answer is edited and disappears if a required answer becomes invalid.
 
 The avatar picker and its assets were removed from the activity. The HTML reference still teaches images and alt text.
 
@@ -35,6 +36,7 @@ Browser checks cover:
 - Missing test-case predictions rejected; populated typical and edge cases accepted.
 - Editing a completed workflow to fewer than three steps clears completion and disables tracing.
 - Five-step completion, self-contained exported document contents, and both workflow and test-case inclusion.
+- Inline full-code reveal after completion, exact clipboard copying, select-all, live refresh after a valid edit, and hiding the panel when a completed answer becomes invalid.
 - Workflow controls hidden in the separate experiment editor.
 - Contextual ordered-list help, keyboard opening, Escape dismissal, and responsive layout.
 

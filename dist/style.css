@@ -137,3 +137,17 @@ dialog::backdrop{background:#0A038E85}
 .hero h1{font-family:"Orbitron","Futura","Century Gothic",sans-serif;font-weight:700;font-size:clamp(36px,4.3vw,60px);line-height:1.18;letter-spacing:-.045em}
 .hero h1 span{font-style:italic}
 @media(max-width:760px){.hero h1{font-size:clamp(29px,7.6vw,42px);letter-spacing:-.055em}}
+
+/* A visible, complete file at the end of the five-mission introduction. */
+.finished-code-panel{margin-top:26px;scroll-margin-top:84px}
+.finished-code-content{padding:26px}
+.finished-code-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:20px}
+.finished-code-heading .eyebrow{color:#2C64E8}
+.finished-code-heading h3{font:500 29px/1.2 Georgia,serif;margin:8px 0 10px;color:#0A038E}
+.finished-code-heading p{font-size:14px;line-height:1.6;max-width:680px;margin:0;color:#303766}
+.finished-code-actions{display:flex;gap:10px;flex-wrap:wrap;flex-shrink:0}
+.finished-code-actions .light-button{border:1px solid #8ABEDB}
+.finished-code-content label{display:block;font-size:12px;font-weight:700;color:#0A038E;margin-bottom:8px}
+#finished-code-source{display:block;width:100%;height:clamp(300px,45vh,520px);padding:18px;border:1px solid #8ABEDB;border-radius:7px;background:#E9F8FF;color:#0A038E;font:12px/1.65 monospace;resize:vertical}
+#finished-code-status{font-size:12px;color:#303766;margin:12px 0 0}
+@media(max-width:760px){.finished-code-content{padding:18px}.finished-code-heading{display:block}.finished-code-actions{margin-top:16px}.finished-code-actions .primary,.finished-code-actions .light-button{padding:11px 13px;font-size:12px}#finished-code-source{font-size:11px;height:340px}}

@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
   <link rel="icon" href="favicon.svg?v=blue-light-20261012" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css?v=orbitron-hero-20261012">
+  <link rel="stylesheet" href="style.css?v=finished-code-20261012">
   <script src="script.js" defer></script>
-  <script src="missions.js?v=blue-light-20261012" defer></script>
+  <script src="missions.js?v=finished-code-v2-20261012" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -28,7 +28,7 @@
   <div class="mission-progress-heading"><span class="eyebrow">YOUR RESEARCH PROFILE</span><span id="mission-progress-count">0 of 5 complete</span></div>
   <ol id="mission-progress" class="mission-progress" aria-label="Introduction missions"></ol>
   <div id="mission-complete" class="mission-complete" hidden>
-    <span class="completion-mark" aria-hidden="true">✳</span><div><h3>You made your introduction page!</h3><p>Your focus, a workflow, and two test cases. Copy it into a file named <code>index.html</code> to keep it.</p></div>
+    <span class="completion-mark" aria-hidden="true">✳</span><div><h3>You made your introduction page!</h3><p>Your complete <code>index.html</code> is below. Copy it into VS Code to keep working on it.</p></div>
     <div class="completion-actions"><button class="primary" id="copy-my-page">Copy my page ⧉</button><button class="light-button" id="view-my-page">View / download HTML ↓</button><button class="light-button" id="experiment-page">Keep experimenting ↗</button></div>
   </div>
   <div class="mission-studio">
@@ -51,6 +51,14 @@
     </div>
     <div class="preview-pane mission-preview"><div class="editor-label">YOUR INTRODUCTION <span>A little more you with every step.</span></div><iframe id="challenge-preview" sandbox="allow-popups allow-popups-to-escape-sandbox" title="Your introduction page preview"></iframe><div class="preview-caption">A little CSS is included to style your page. Valid links open in a new tab, keeping your work here.</div></div>
   </div>
+  <section id="finished-code" class="code-window finished-code-panel" aria-labelledby="finished-code-title" hidden>
+    <div class="window-bar"><div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div><span>index.html / your complete page</span></div>
+    <div class="finished-code-content">
+      <div class="finished-code-heading"><div><span class="eyebrow">YOUR COMPLETE HTML FILE</span><h3 id="finished-code-title">Ready for VS Code.</h3><p>This includes your five mission answers and the CSS. Copy everything, create a file named <code>index.html</code> in VS Code, and paste it there.</p></div><div class="finished-code-actions"><button class="primary" id="copy-finished-code" type="button">Copy full code ⧉</button><button class="light-button" id="select-finished-code" type="button">Select all</button></div></div>
+      <label for="finished-code-source">Complete HTML source</label><textarea id="finished-code-source" readonly spellcheck="false" aria-describedby="finished-code-status"></textarea>
+      <p id="finished-code-status" role="status">Save the file, then open it in your browser to see your page.</p>
+    </div>
+  </section>
   <p id="challenge-help" class="challenge-help">Edit the words between tags and the values inside quotation marks. Checks verify HTML structure and filled-in fields. They do not assess the correctness of your procedure or predictions; use the reflection prompts and peer review for that. Nothing is submitted or saved when you reload.</p>
 </div></section>
 <section class="wrap rules-section"><div><span class="eyebrow">BEFORE YOU CALL IT DONE</span><h2>Good habits.<br>Better HTML.</h2><p>A tiny checklist for your next creation.</p></div><div class="rules-grid" id="rules"></div></section>

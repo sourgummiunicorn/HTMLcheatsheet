@@ -95,7 +95,45 @@
       try { const url = new URL(a.getAttribute('href').trim()); return ['http:', 'https:'].includes(url.protocol) && !!url.hostname; } catch { return false; }
     });
   }
-  const pageCSS = `*{box-sizing:border-box}body{margin:0;padding:32px 24px;background:#BDEBFF;color:#000;font:16px/1.7 "Avenir Next","Segoe UI",sans-serif;overflow-wrap:anywhere}.profile-card{max-width:580px;margin:0 auto}h1{font:500 clamp(28px,6vw,42px)/1.15 Georgia,serif;letter-spacing:-.04em;margin:0 0 18px}p{margin:14px 0}img{max-width:100%;height:auto;border-radius:24px;margin:12px 0}ul,ol{padding-left:24px}h2{font:500 25px/1.2 Georgia,serif;margin:28px 0 14px}h3{font-size:14px;margin:16px 0 5px}.workflow{border-top:1px solid #2C64E8;margin-top:22px}.test-cases .input:before{content:"Input: ";font-weight:600}.expected:before{content:"Expected: ";font-weight:600}li{padding:3px 0}a,.preview-link{color:#0A038E;text-decoration:underline;text-underline-offset:3px}button{font:inherit;background:#0A038E;color:white;border:0;padding:10px 18px;border-radius:7px}`;
+  const pageCSS = `
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 32px 24px;
+      background: #BDEBFF;
+      color: #000;
+      font: 16px/1.7 "Avenir Next", "Segoe UI", sans-serif;
+      overflow-wrap: anywhere;
+    }
+    .profile-card { max-width: 580px; margin: 0 auto; }
+    h1 {
+      font: 500 clamp(28px, 6vw, 42px)/1.15 Georgia, serif;
+      letter-spacing: -.04em;
+      margin: 0 0 18px;
+    }
+    p { margin: 14px 0; }
+    img { max-width: 100%; height: auto; border-radius: 24px; margin: 12px 0; }
+    ul, ol { padding-left: 24px; }
+    h2 { font: 500 25px/1.2 Georgia, serif; margin: 28px 0 14px; }
+    h3 { font-size: 14px; margin: 16px 0 5px; }
+    .workflow { border-top: 1px solid #2C64E8; margin-top: 22px; }
+    .test-cases .input:before { content: "Input: "; font-weight: 600; }
+    .expected:before { content: "Expected: "; font-weight: 600; }
+    li { padding: 3px 0; }
+    a, .preview-link {
+      color: #0A038E;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    button {
+      font: inherit;
+      background: #0A038E;
+      color: white;
+      border: 0;
+      padding: 10px 18px;
+      border-radius: 7px;
+    }
+  `;
   function assembled(preview = false) {
     const pieces = drafts.map((code, i) => {
       if (!visited.has(i)) return '';
@@ -156,7 +194,10 @@
       button.setAttribute('aria-label', `${i + 1}. ${missions[i].title}${checked[i] ? ', complete' : ''}`);
       $('.mission-step-number', button).textContent = checked[i] ? '✓' : String(i + 1).padStart(2, '0');
     });
-    $('#mission-complete').hidden = !complete || mode !== 'guided';
+    const showFinishedCode = complete && mode === 'guided';
+    $('#mission-complete').hidden = !showFinishedCode;
+    $('#finished-code').hidden = !showFinishedCode;
+    $('#finished-code-source').value = showFinishedCode ? makeDocument(assembled()) : '';
     $('#mission-complete').classList.toggle('celebrate', complete && !wasComplete);
     wasComplete = complete;
     const last = current === missions.length - 1;
@@ -222,7 +263,7 @@
   });
   $('#next-mission').addEventListener('click', () => {
     if (current < missions.length - 1) selectMission(current + 1, true);
-    else { $('#mission-complete').scrollIntoView({block:'center'}); $('#copy-my-page').focus({preventScroll:true}); }
+    else { $('#finished-code').scrollIntoView({block:'start'}); $('#copy-finished-code').focus({preventScroll:true}); }
   });
   $('#reset-mission').addEventListener('click', () => {
     drafts[current] = missions[current].starter; checked[current] = false;
@@ -232,6 +273,15 @@
   const pageExportOptions = {filename:'index.html', title:'Your introduction HTML', show:true};
   $('#copy-my-page').addEventListener('click', () => copy(makeDocument(assembled()), pageExportOptions));
   $('#view-my-page').addEventListener('click', () => showCodeExport(makeDocument(assembled()), pageExportOptions));
+  $('#copy-finished-code').addEventListener('click', async () => {
+    const copied = await copy($('#finished-code-source').value, {filename:'index.html', title:'Your introduction HTML'});
+    $('#finished-code-status').textContent = copied ? 'Copied. Paste into a new index.html file in VS Code.' : 'The full code is selected in the export window for manual copying.';
+  });
+  $('#select-finished-code').addEventListener('click', () => {
+    const source = $('#finished-code-source');
+    source.focus(); source.select(); source.setSelectionRange(0, source.value.length);
+    $('#finished-code-status').textContent = 'Selected. Press ⌘C on Mac or Ctrl+C on Windows, then paste into index.html in VS Code.';
+  });
   $('#copy-experiment').addEventListener('click', () => copy(makeDocument(experimentDraft), pageExportOptions));
   $('#view-experiment').addEventListener('click', () => showCodeExport(makeDocument(experimentDraft), pageExportOptions));
   $('#experiment-page').addEventListener('click', () => {
