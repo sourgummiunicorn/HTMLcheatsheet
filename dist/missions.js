@@ -3,63 +3,65 @@
   const missions = [
   {
     "title": "Introduce yourself",
-    "tag": "h1–h6",
-    "tagLabel": "<h1>",
-    "starter": "<h1></h1>",
     "prompt": "Introduce yourself by name or preferred name. This heading will anchor a short profile of you and how you approach your work.",
-    "hint": "Write your introduction between the opening and closing h1 tags. The heading identifies the page; it does not need your full biography.",
-    "example": "<h1>Alex Chen — Learning Sciences</h1>",
+    "hint": "A name or preferred name is enough. Your introduction does not need your full biography.",
     "success": "Your introduction has a main heading.",
-    "retry": "Add your name or preferred name between <h1> and </h1>."
+    "retry": "Add your name or preferred name in the field."
   },
   {
     "title": "Define your focus",
-    "tag": "p",
-    "tagLabel": "<p>",
-    "starter": "<p></p>",
     "prompt": "What question, project, or research area motivates you? Describe your focus and what you hope to understand in one or two sentences.",
     "hint": "Move from a broad topic to a specific question. Name what you want to understand, compare, or create. A project from your coursework works too.",
-    "example": "<p>I study how feedback helps adults learn. I want to compare how learners revise their work after written and spoken feedback.</p>",
     "success": "Your profile now explains the question behind your work.",
-    "retry": "Write a short description of your focus inside a <p> paragraph."
+    "retry": "Write a short description of your focus."
   },
   {
     "title": "Model your approach",
-    "tag": "ol",
-    "tagLabel": "<section> + <ol>",
-    "starter": "<section class=\"workflow\">\n  <h2>How I approach a problem</h2>\n  <h3>Input</h3>\n  <p class=\"input\"></p>\n  <h3>Process</h3>\n  <ol>\n    <li></li>\n    <li></li>\n    <li></li>\n  </ol>\n  <h3>Output</h3>\n  <p class=\"output\"></p>\n</section>",
     "prompt": "Choose a recurring task from your research or coursework. Identify its input, break the process into at least three actionable steps, and define its output. Then trace the steps in order.",
-    "hint": "Keep the class names input and output so the checker can locate your descriptions. Use one action per li. Ask: what does each step need from the previous step? The trace follows your written steps; it does not execute or evaluate them.",
-    "example": "<section class=\"workflow\">\n  <h2>Finding studies for a literature review</h2>\n  <h3>Input</h3>\n  <p class=\"input\">Search results and inclusion criteria.</p>\n  <h3>Process</h3>\n  <ol>\n    <li>Remove duplicate records.</li>\n    <li>Compare each abstract with the inclusion criteria.</li>\n    <li>Record eligible studies and reasons for exclusions.</li>\n  </ol>\n  <h3>Output</h3>\n  <p class=\"output\">A study shortlist with an audit trail.</p>\n</section>",
+    "hint": "Use one action per step. Ask what each step needs from the previous step. The trace follows your written steps; it does not execute or evaluate them.",
     "success": "The workflow has an input, at least three steps, and an output. Trace it and check whether each step has what it needs.",
-    "retry": "Inside one section, add text to p.input and p.output, plus at least three nonempty li items in an ol.",
+    "retry": "Describe an input, three actions, and an output.",
     "reflection": "Could a colleague follow these steps without guessing? Identify an assumption, an ambiguous action, or a dependency you need to make explicit."
   },
   {
     "title": "Test your approach",
-    "tag": "ul",
-    "tagLabel": "<ul> + <li>",
-    "starter": "<section class=\"test-cases\">\n  <h2>Testing my approach</h2>\n  <ul>\n    <li class=\"typical\">\n      <h3>Typical case</h3>\n      <p class=\"input\"></p>\n      <p class=\"expected\"></p>\n    </li>\n    <li class=\"edge\">\n      <h3>Edge case</h3>\n      <p class=\"input\"></p>\n      <p class=\"expected\"></p>\n    </li>\n  </ul>\n</section>",
     "prompt": "Design two test cases for your workflow: one typical input and one edge case, such as missing data, duplicates, or no results. Predict an outcome for each before tracing the steps.",
-    "hint": "Inside each case, p.input describes the test input and p.expected states the predicted result. Keep the typical and edge class names. If the edge case breaks your method, revisit mission 3 and improve it.",
-    "example": "<section class=\"test-cases\">\n  <h2>Testing my approach</h2>\n  <ul>\n    <li class=\"typical\">\n      <h3>Typical case</h3>\n      <p class=\"input\">Three unique records; two meet the criteria.</p>\n      <p class=\"expected\">Two included records and one documented exclusion.</p>\n    </li>\n    <li class=\"edge\">\n      <h3>Edge case</h3>\n      <p class=\"input\">The search returns no records.</p>\n      <p class=\"expected\">An empty shortlist and a note to review the search strategy.</p>\n    </li>\n  </ul>\n</section>",
+    "hint": "For each case, describe what goes in and what you expect to happen. If the edge case breaks your method, revisit mission 3 and improve it.",
     "success": "Both cases contain an input and an expected result. Compare them with your workflow; this check does not judge whether the predictions are correct.",
-    "retry": "Complete both li.typical and li.edge inside one ul: each needs a nonempty p.input and p.expected.",
+    "retry": "Complete the input and expected result for both the typical and edge cases.",
     "reflection": "Trace your edge case through mission 3. At which step does the input challenge an assumption? Revise the procedure or explain why no change is needed."
   },
   {
     "title": "Connect your work",
-    "tag": "a",
-    "tagLabel": "<a>",
-    "starter": "<a href=\"\"></a>",
     "prompt": "Link to a resource that informs your work: a paper, dataset, method, professional page, or tool. Use link text that tells a reader why the resource is relevant.",
-    "hint": "Put a full https:// or http:// address inside href. Between the tags, name the resource rather than writing “click here.”",
-    "example": "<a href=\"https://example.com\">A resource that informs my research</a>",
+    "hint": "Use a full https:// or http:// address and name the resource rather than writing “click here.”",
     "success": "Your profile now connects readers to a relevant resource.",
-    "retry": "Add an HTTP(S) address inside href and meaningful link text between the <a> tags."
+    "retry": "Add a full web address and a meaningful name for the resource."
   }
 ];
-  const drafts = missions.map(m => m.starter);
+  const fields = [
+    [{label:'Your name or preferred name', placeholder:'Alex', type:'text'}],
+    [{label:'Your question, project, or research focus', placeholder:'What are you curious about?', type:'textarea'}],
+    [
+      {label:'Input — what do you start with?', placeholder:'Materials, data, or a question', type:'textarea'},
+      {label:'Action 1', placeholder:'What do you do first?', type:'text'},
+      {label:'Action 2', placeholder:'What happens next?', type:'text'},
+      {label:'Action 3', placeholder:'How do you finish?', type:'text'},
+      {label:'Output — what should you have at the end?', placeholder:'The result of your steps', type:'textarea'}
+    ],
+    [
+      {label:'Typical case — input', placeholder:'A common situation', type:'textarea'},
+      {label:'Typical case — expected result', placeholder:'What should happen?', type:'textarea'},
+      {label:'Edge case — input', placeholder:'An unusual or difficult situation', type:'textarea'},
+      {label:'Edge case — expected result', placeholder:'What should happen then?', type:'textarea'}
+    ],
+    [
+      {label:'Resource web address', placeholder:'https://example.com', type:'url'},
+      {label:'Name of the resource', placeholder:'A resource that informs my work', type:'text'}
+    ]
+  ];
+  const responses = fields.map(group => group.map(() => ''));
+  const drafts = missions.map(() => '');
   const checked = missions.map(() => false);
   const visited = new Set([0]);
   let current = 0;
@@ -76,6 +78,28 @@
     clone.querySelectorAll('script, style, template').forEach(e => e.remove());
     return !!clone.textContent.trim();
   };
+  function buildMissionHTML(index) {
+    const values = responses[index].map(value => escapeHTML(value.trim()));
+    if (!values.some(Boolean)) return '';
+    if (index === 0) return `<h1>${values[0]}</h1>`;
+    if (index === 1) return `<p>${values[0]}</p>`;
+    if (index === 2) {
+      const [input, first, second, third, output] = values;
+      const steps = [first, second, third].filter(Boolean);
+      return `<section class="workflow">\n  <h2>How I approach a problem</h2>${input ? `\n  <h3>Input</h3>\n  <p class="input">${input}</p>` : ''}${steps.length ? `\n  <h3>Process</h3>\n  <ol>\n${steps.map(step => `    <li>${step}</li>`).join('\n')}\n  </ol>` : ''}${output ? `\n  <h3>Output</h3>\n  <p class="output">${output}</p>` : ''}\n</section>`;
+    }
+    if (index === 3) {
+      const [typicalInput, typicalExpected, edgeInput, edgeExpected] = values;
+      const caseHTML = (kind, title, input, expected) => input || expected ? `\n    <li class="${kind}">\n      <h3>${title}</h3>${input ? `\n      <p class="input">${input}</p>` : ''}${expected ? `\n      <p class="expected">${expected}</p>` : ''}\n    </li>` : '';
+      return `<section class="test-cases">\n  <h2>Testing my approach</h2>\n  <ul>${caseHTML('typical', 'Typical case', typicalInput, typicalExpected)}${caseHTML('edge', 'Edge case', edgeInput, edgeExpected)}\n  </ul>\n</section>`;
+    }
+    return `<a href="${values[0]}">${values[1]}</a>`;
+  }
+  function renderGuidedFields() {
+    const panel = $('#guided-fields');
+    panel.innerHTML = fields[current].map((field, index) => `<label class="guided-field" for="mission-response-${index}"><span>${escapeHTML(field.label)}</span>${field.type === 'textarea' ? `<textarea id="mission-response-${index}" data-response="${index}" rows="3" placeholder="${escapeHTML(field.placeholder)}"></textarea>` : `<input id="mission-response-${index}" data-response="${index}" type="${field.type}" placeholder="${escapeHTML(field.placeholder)}">`}</label>`).join('');
+    panel.querySelectorAll('[data-response]').forEach((input, index) => { input.value = responses[current][index]; });
+  }
   function workflowNodes(dom) {
     const sections = [...dom.querySelectorAll('section')];
     const ready = sections.find(section => hasText(section.querySelector('p.input')) && hasText(section.querySelector('p.output')) && [...section.querySelectorAll('ol')].some(ol => [...ol.children].filter(li => li.tagName === 'LI' && hasText(li)).length >= 3));
@@ -161,7 +185,7 @@
       if (step) step.classList.add('trace-active');
     }
     const container = document.createElement('div'); container.append(dom);
-    const empty = preview && !container.textContent.trim() && !container.querySelector('img') ? '<p class="empty-introduction">Your story starts with a hello.<br>Type in the editor to see it here.</p>' : '';
+    const empty = preview && !container.textContent.trim() && !container.querySelector('img') ? `<p class="empty-introduction">Your story starts with a hello.<br>${mode === 'guided' ? 'Fill in a field to see it here.' : 'Type in the editor to see it here.'}</p>` : '';
     const previewCSS = preview ? '.mission-fragment{padding:8px 12px;margin:0 -12px 8px;min-height:8px}.current-fragment{background:#e9f8ff;outline:1px dashed #2C64E8;border-radius:8px}.trace-active{background:#BDEBFF;outline:2px solid #0A038E;border-radius:4px}.empty-introduction{color:#000;font-size:14px;text-align:center;padding:54px 0}' : '';
     return `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; form-action 'none'; base-uri 'none';">\n  <title>My introduction</title>\n  <style>${pageCSS}${previewCSS}</style>\n</head>\n<body>\n${container.innerHTML}${empty}\n</body>\n</html>`;
   }
@@ -216,20 +240,17 @@
     $('#guided-controls').hidden = false;
     $('#experiment-controls').hidden = true;
     $('#mission-step-controls').hidden = false;
+    $('#guided-fields').hidden = false;
+    $('#mission-editor-pane').hidden = true;
     $('#mission-kicker').textContent = `MISSION ${index + 1} / 5`;
     $('#mission-title').textContent = mission.title + '.';
     $('#mission-instruction').textContent = mission.prompt;
     $('#mission-hint').open = false;
     $('#mission-hint-text').textContent = mission.hint;
-    $('#mission-example').innerHTML = highlight(mission.example);
-    $('#mission-tag-help').textContent = `${mission.tagLabel} field notes ↗`;
     $('#workflow-trace').hidden = index !== 2;
     $('#reasoning-prompt').hidden = !mission.reflection;
     $('#reasoning-text').textContent = mission.reflection || '';
-    editor.classList.toggle('structured-mission-editor', index === 2 || index === 3);
-    $('#mission-editor-label').textContent = `YOUR ${mission.tagLabel} HTML`;
-    editor.value = drafts[index];
-    editor.setAttribute('aria-describedby', 'mission-instruction challenge-help');
+    renderGuidedFields();
     editor.classList.remove('full-page-editor');
     setFeedback(checked[index] ? mission.success : '', checked[index]);
     updateTrace(); renderProgress(); renderPreview();
@@ -237,15 +258,19 @@
   }
   $('#mission-progress').innerHTML = missions.map((m, i) => `<li><button type="button" data-mission="${i}"><span class="mission-step-number">${i + 1}</span><span>${m.title}</span></button></li>`).join('');
   $('#mission-progress').addEventListener('click', e => { const b = e.target.closest('[data-mission]'); if (b) selectMission(Number(b.dataset.mission), true); });
-  $('#mission-tag-help').addEventListener('click', () => openTag(missions[current].tag));
+  $('#guided-fields').addEventListener('input', e => {
+    const field = e.target.closest('[data-response]');
+    if (!field) return;
+    responses[current][Number(field.dataset.response)] = field.value;
+    drafts[current] = buildMissionHTML(current);
+    if (checked[current]) checked[current] = valid(current);
+    if (current === 2) traceStep = -1;
+    setFeedback(''); updateTrace(); renderProgress();
+    clearTimeout(previewTimer); previewTimer = setTimeout(renderPreview, 300);
+  });
   editor.addEventListener('input', () => {
-    if (mode === 'guided') {
-      drafts[current] = editor.value;
-      if (checked[current]) checked[current] = valid(current);
-      // Editing never announces on each keystroke. Check my step owns feedback.
-      if (current === 2) traceStep = -1;
-      setFeedback(''); updateTrace(); renderProgress();
-    } else experimentDraft = editor.value;
+    if (mode !== 'experiment') return;
+    experimentDraft = editor.value;
     clearTimeout(previewTimer); previewTimer = setTimeout(renderPreview, 300);
   });
   $('#trace-next').addEventListener('click', () => {
@@ -266,9 +291,9 @@
     else { $('#finished-code').scrollIntoView({block:'start'}); $('#copy-finished-code').focus({preventScroll:true}); }
   });
   $('#reset-mission').addEventListener('click', () => {
-    drafts[current] = missions[current].starter; checked[current] = false;
+    responses[current].fill(''); drafts[current] = ''; checked[current] = false;
     if (current === 2) traceStep = -1;
-    selectMission(current); setFeedback('A fresh start for this mission. Your other steps are unchanged.'); editor.focus();
+    selectMission(current); setFeedback('A fresh start for this mission. Your other steps are unchanged.'); $('#guided-fields [data-response]').focus();
   });
   const pageExportOptions = {filename:'index.html', title:'Your introduction HTML', show:true};
   $('#copy-my-page').addEventListener('click', () => copy(makeDocument(assembled()), pageExportOptions));
@@ -291,6 +316,7 @@
     $('#workflow-trace').hidden = true;
     editor.classList.remove('structured-mission-editor');
     $('#guided-controls').hidden = true; $('#experiment-controls').hidden = false; $('#mission-step-controls').hidden = true;
+    $('#guided-fields').hidden = true; $('#mission-editor-pane').hidden = false;
     $('#mission-editor-label').textContent = 'YOUR PAGE HTML';
     editor.setAttribute('aria-describedby', 'experiment-title challenge-help');
     editor.classList.add('full-page-editor'); editor.value = experimentDraft;
