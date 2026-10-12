@@ -95,7 +95,7 @@
       try { const url = new URL(a.getAttribute('href').trim()); return ['http:', 'https:'].includes(url.protocol) && !!url.hostname; } catch { return false; }
     });
   }
-  const pageCSS = `*{box-sizing:border-box}body{margin:0;padding:32px 24px;background:#ffeedc;color:#000;font:16px/1.7 "Avenir Next","Segoe UI",sans-serif;overflow-wrap:anywhere}.profile-card{max-width:580px;margin:0 auto}h1{font:500 clamp(28px,6vw,42px)/1.15 Georgia,serif;letter-spacing:-.04em;margin:0 0 18px}p{margin:14px 0}img{max-width:100%;height:auto;border-radius:24px;margin:12px 0}ul,ol{padding-left:24px}h2{font:500 25px/1.2 Georgia,serif;margin:28px 0 14px}h3{font-size:14px;margin:16px 0 5px}.workflow{border-top:1px solid #d8dfd2;margin-top:22px}.test-cases .input:before{content:"Input: ";font-weight:600}.expected:before{content:"Expected: ";font-weight:600}li{padding:3px 0}a,.preview-link{color:#26704d;text-decoration:underline;text-underline-offset:3px}button{font:inherit;background:#26704d;color:white;border:0;padding:10px 18px;border-radius:7px}`;
+  const pageCSS = `*{box-sizing:border-box}body{margin:0;padding:32px 24px;background:#9AE2FE;color:#000;font:16px/1.7 "Avenir Next","Segoe UI",sans-serif;overflow-wrap:anywhere}.profile-card{max-width:580px;margin:0 auto}h1{font:500 clamp(28px,6vw,42px)/1.15 Georgia,serif;letter-spacing:-.04em;margin:0 0 18px}p{margin:14px 0}img{max-width:100%;height:auto;border-radius:24px;margin:12px 0}ul,ol{padding-left:24px}h2{font:500 25px/1.2 Georgia,serif;margin:28px 0 14px}h3{font-size:14px;margin:16px 0 5px}.workflow{border-top:1px solid #2C64E8;margin-top:22px}.test-cases .input:before{content:"Input: ";font-weight:600}.expected:before{content:"Expected: ";font-weight:600}li{padding:3px 0}a,.preview-link{color:#0A038E;text-decoration:underline;text-underline-offset:3px}button{font:inherit;background:#0A038E;color:white;border:0;padding:10px 18px;border-radius:7px}`;
   function assembled(preview = false) {
     const pieces = drafts.map((code, i) => {
       if (!visited.has(i)) return '';
@@ -124,7 +124,7 @@
     }
     const container = document.createElement('div'); container.append(dom);
     const empty = preview && !container.textContent.trim() && !container.querySelector('img') ? '<p class="empty-introduction">Your story starts with a hello.<br>Type in the editor to see it here.</p>' : '';
-    const previewCSS = preview ? '.mission-fragment{padding:8px 12px;margin:0 -12px 8px;min-height:8px}.current-fragment{background:#edf3e7;outline:1px dashed #b3caaa;border-radius:8px}.trace-active{background:#d7e9c9;outline:2px solid #26704d;border-radius:4px}.empty-introduction{color:#000;font-size:14px;text-align:center;padding:54px 0}' : '';
+    const previewCSS = preview ? '.mission-fragment{padding:8px 12px;margin:0 -12px 8px;min-height:8px}.current-fragment{background:#e9f8ff;outline:1px dashed #2C64E8;border-radius:8px}.trace-active{background:#9AE2FE;outline:2px solid #0A038E;border-radius:4px}.empty-introduction{color:#000;font-size:14px;text-align:center;padding:54px 0}' : '';
     return `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; form-action 'none'; base-uri 'none';">\n  <title>My introduction</title>\n  <style>${pageCSS}${previewCSS}</style>\n</head>\n<body>\n${container.innerHTML}${empty}\n</body>\n</html>`;
   }
   function renderPreview() {

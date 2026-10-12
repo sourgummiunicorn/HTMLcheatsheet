@@ -51,3 +51,84 @@
 .editor-pane .editor-label span{color:#A5B89B}
 .editor-pane textarea,.mission-editor-pane textarea{color:#D3E9B7;border-color:#445D4A}
 .editor-bottom{border-color:#445D4A}
+
+/* Four blues sampled from the supplied palette: navy, royal, cyan, sky. */
+:root{
+  --ink:#0A038E;
+  --muted:#303766;
+  --accent:#2C64E8;
+  --deep:#0A038E;
+  --soft:#E9F8FF;
+  --canvas:#9AE2FE;
+  --line:#8ABEDB;
+  --white:#FFF;
+}
+.topbar,.challenge-section{background:#0A038E}
+.brand-symbol,.status-dot{background:#27B5F5}
+.brand-symbol{color:#0A038E}
+.brand-divider,.course{color:#D9F4FF}
+.top-link:hover{color:#9AE2FE}
+.primary{background:#0A038E;color:#FFF}
+.primary:hover{background:#2C64E8}
+.light-button,.export-actions .light-button{background:#E9F8FF;color:#0A038E}
+.light-button:hover,.export-actions .light-button:hover{background:#9AE2FE}
+.primary:disabled{background:#D7E5ED;color:#435170}
+.section-nav{background:#E9F8FFF2;border-color:#8ABEDB}
+.nav-inner a.active{color:#0A038E;border-bottom-color:#2C64E8}
+.nav-inner a:hover,.text-link:hover{color:#0A038E}
+.anatomy,.core-panel,.form-studio,.reasoning-prompt,.mission-complete{background:#E9F8FF;border-color:#8ABEDB;box-shadow:5px 5px 0 #27B5F544}
+.reference-section,.experiment,.mission-prompt,.mission-studio,.mission-preview,dialog{background:#FFF}
+.tag-card,.search-box,.control-row select,.segmented,form input,form textarea{background:#E9F8FF}
+.tag-card:hover{box-shadow:3px 3px 0 #9AE2FE}
+.live-preview{background:#E9F8FF;border-color:#27B5F5;color:#000}
+.live-preview p{color:#000}
+.form-studio form{box-shadow:4px 4px 0 #9AE2FE}
+.element-code,.void-note{border-color:#8ABEDB}
+.code-window,.classes-panel pre,.form-studio form,#dialog-body pre,.mission-studio,.mission-prompt,.mission-preview,.mission-hint pre,.trace-reading,#export-code{border-color:#8ABEDB}
+.code-window{box-shadow:4px 4px 0 #27B5F566}
+.window-bar,.preview-pane .editor-label,.preview-caption,.mission-preview .editor-label{background:#9AE2FE;color:#0A038E;border-color:#8ABEDB}
+.preview-pane .editor-label span,.mission-preview .editor-label span{color:#303766}
+.window-dots i{background:#2C64E8}
+.syntax-tag{color:#0A038E}
+.syntax-attr{color:#2C64E8}
+.syntax-value{color:#006A9D}
+.syntax-comment,.code-line:before{color:#526581}
+.form-source summary,.mission-help,.mission-hint summary{color:#0A038E}
+.mission-help:hover{color:#2C64E8}
+.mission-topline .eyebrow,.trace-topline>.eyebrow,.trace-reading .eyebrow{color:#2C64E8}
+.mission-prompt,.mission-step-controls{color:#0A038E}
+.mission-prompt p,.mission-next-row>span,.trace-reading p{color:#303766}
+.mission-hint,.mission-next-row{border-color:#8ABEDB}
+.reasoning-prompt{border-left-color:#2C64E8}
+.reasoning-prompt .eyebrow{color:#2C64E8}
+.mission-hint pre,.workflow-trace,.trace-reading,#export-code{background:#E9F8FF;color:#0A038E}
+.workflow-trace{border-color:#8ABEDB}
+.mission-feedback{color:#784921!important}
+.mission-feedback.step-success{color:#0A038E!important}
+.editor-pane,.mission-editor-pane{background:#0A038E;color:#E9F8FF}
+.editor-pane .editor-label,.mission-editor-pane .editor-label{background:#0A038E;color:#E9F8FF;border-color:#5375CF}
+.mission-editor-pane .editor-label>span:first-child{color:#E9F8FF}
+.editor-pane .editor-label span{color:#CBEFFF}
+.editor-pane textarea,.mission-editor-pane textarea{background:#0A038E;color:#FFF;border-color:#5375CF}
+.editor-pane textarea:focus-visible{outline-color:#27B5F5}
+.editor-bottom{border-color:#5375CF}
+.editor-bottom .reset{color:#E9F8FF}
+.challenge-section .section-number,.challenge-section .section-heading .eyebrow,.mission-progress-heading .eyebrow,.challenge-stamp{color:#9AE2FE}
+.challenge-stamp,.mission-session{border-color:#6288E7}
+.challenge-intro p,.mission-session,#mission-progress-count,.challenge-help{color:#E9F8FF}
+.mission-progress button{background:#201AA3;color:#E9F8FF;border-color:#6288E7}
+.mission-progress button:hover{border-color:#27B5F5}
+.mission-progress button.is-current{background:#9AE2FE;color:#0A038E;border-color:#9AE2FE;box-shadow:0 3px 0 #27B5F5}
+.mission-progress button.is-complete .mission-step-number{background:#27B5F5;border-color:#27B5F5;color:#0A038E}
+.mission-step-number{border-color:#8ABEDB}
+.mission-complete,.mission-complete p{color:#0A038E}
+.completion-mark{color:#2C64E8}
+.completion-actions .light-button{background:#FFF;color:#0A038E}
+.completion-actions .light-button:hover{background:#9AE2FE}
+#export-dialog label,#export-status{color:#0A038E}
+.export-actions .light-button,#close-export,#close-dialog{background:#E9F8FF;color:#0A038E}
+dialog::backdrop{background:#0A038E85}
+.toast{background:#0A038E}
+.preview-pane,.mission-preview{border-color:#8ABEDB}
+#challenge-feedback{color:#9AE2FE}
+@media(max-width:760px){.mission-preview{border-color:#8ABEDB}}
