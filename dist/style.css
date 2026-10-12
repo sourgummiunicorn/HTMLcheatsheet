@@ -21,3 +21,14 @@
 
 /* Export stays usable when automatic clipboard access is unavailable. */
 #export-dialog{max-width:850px}#export-title{font:500 30px/1.2 Georgia,serif;margin-bottom:14px}#export-help{font-size:14px}#export-dialog label{font-size:12px;font-weight:600;color:#5b665d}#export-code{display:block;width:100%;height:clamp(160px,32vh,340px);margin-top:8px;padding:16px;border:1px solid #d8dfd2;border-radius:7px;background:#ffeedc;color:#1c2922;font:12px/1.7 monospace;resize:vertical}#export-status{font-size:13px;line-height:1.6;margin:15px 0;color:#26704d}.export-actions{display:flex;flex-wrap:wrap;gap:10px}.export-actions .light-button{background:#edf3e7;color:#195537}.export-actions button{font-size:12px}#close-export{background:#edf3e7;border-radius:5px;width:32px;height:32px}@media(max-width:760px){#export-code{height:clamp(150px,28vh,240px);font-size:11px}#export-dialog{padding:20px}.export-actions{gap:8px}.export-actions button{padding:10px 12px}}
+
+/* Student-requested palette: a soft pink canvas, warm white code spaces, and sage actions. */
+:root{--canvas:#F6E2E9;--white:#FEFAF3;--accent:#84A282;--deep:#6E8A6C;--soft:#F0F6ED;--line:#D8E1D4}
+.primary{background:#84A282}.primary:hover{background:#6E8A6C}
+.code-window,.window-bar,.classes-panel pre,.form-studio form,#dialog-body pre,.editor-pane,.mission-editor-pane,.mission-editor-pane .editor-label,.mission-editor-pane textarea,.workflow-trace,#export-code{background:#FEFAF3}
+.code-window,.classes-panel pre,.form-studio form,#dialog-body pre,.mission-studio,.mission-prompt,.mission-preview,#export-code{border-color:#D8E1D4}
+.code-window{box-shadow:4px 4px 0 #E9D3DC}
+.editor-pane,.mission-editor-pane{color:#1C2922}
+.editor-pane .editor-label,.mission-editor-pane .editor-label,.editor-pane textarea,.mission-editor-pane textarea{color:#1C2922;border-color:#D8E1D4}
+.editor-pane .editor-label span{color:#5B665D}
+.editor-bottom{border-color:#D8E1D4}
