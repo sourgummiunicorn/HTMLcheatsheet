@@ -12,8 +12,8 @@ The five missions ask students to introduce themselves, define a research or cou
 
 Each guided mission opens a blank HTML editor. Students type the opening and closing tags themselves; the mission prompts and hints describe the needed structure without prefilled markup. The live preview renders their code, and the complete source appears after all five missions, ready to copy into VS Code. The rest of the field guide offers HTML examples for reference.
 
-- The workflow uses an input description, at least three ordered actions, and an output description.
-- The trace walks through the student's own text and highlights the corresponding step in the preview. It does not execute an algorithm, transform data, or infer an answer.
+- The third mission uses an ordered list with at least three actions.
+- The trace walks through the student's own list and highlights the corresponding step in the preview. It does not execute an algorithm, transform data, or infer an answer.
 - Test cases include both a typical input and an edge-case input, each with an expected result.
 - Reflection prompts ask students to identify dependencies, ambiguities, assumptions, and changes suggested by their tests.
 - Completion checks confirm the requested HTML structure, content, and closing tags, not the correctness or quality of reasoning. Peer review and manual tracing are part of the activity.
@@ -34,10 +34,10 @@ Drafts stay in memory and reset on reload. The experiment editor preserves a sep
 Browser checks cover:
 
 - Each mission editor starts empty and remains empty after reset; an unclosed heading does not pass the first check.
-- Empty workflow rejection and disabled tracing until input, three steps, and output are present.
-- Correct ordered trace progression, matching preview highlighting, output comparison, and restart.
+- Empty-list rejection and disabled tracing until three steps are present.
+- Correct ordered trace progression, matching preview highlighting, and restart.
 - Missing test-case predictions rejected; populated typical and edge cases accepted.
-- Editing a completed workflow to fewer than three steps clears completion and disables tracing.
+- Editing a completed list to fewer than three steps clears completion and disables tracing.
 - Five-step completion, self-contained exported document contents, and both workflow and test-case inclusion.
 - Inline full-code reveal after completion, exact clipboard copying, select-all, live refresh after a valid edit, and hiding the panel when a completed answer becomes invalid.
 - Workflow controls hidden in the separate experiment editor.

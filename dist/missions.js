@@ -17,11 +17,11 @@
   },
   {
     "title": "Model your approach",
-    "prompt": "Code a section for a recurring task from your research or coursework. Describe its input and output in paragraphs, and place at least three actions in an ordered list. Type and close the section, paragraph, list, and list-item tags yourself.",
-    "hint": "An ordered list uses ol, with one li element per action. Put an input paragraph before the list and an output paragraph after it. The trace follows your written steps; it does not execute them.",
-    "success": "The workflow has an input, at least three steps, and an output. Trace it and check whether each step has what it needs.",
-    "retry": "Add a section with an input paragraph, an ordered list of three complete items, and an output paragraph. Close each tag.",
-    "reflection": "Could a colleague follow these steps without guessing? Identify an assumption, an ambiguous action, or a dependency you need to make explicit."
+    "prompt": "Code an ordered list for a recurring task from your research or coursework. Add at least three actions, with one action inside each list item. Type and close the list and list-item tags yourself.",
+    "hint": "An ordered list uses ol, with one li element per action. Start each item with a clear action word. The walkthrough follows your written steps; it does not execute them.",
+    "success": "Your ordered list has at least three complete steps. Trace the list to review its sequence.",
+    "retry": "Add an ordered list with at least three complete list items. Close the list and every list-item tag.",
+    "reflection": "Could a classmate follow these steps without guessing? Identify an ambiguous action or an important detail you could make clearer."
   },
   {
     "title": "Test your approach",
@@ -57,16 +57,9 @@
     return !!clone.textContent.trim();
   };
   function workflowNodes(dom) {
-    const sections = [...dom.querySelectorAll('section')];
-    const ready = sections.find(section => {
-      const paragraphs = [...section.querySelectorAll('p')].filter(p => !p.closest('ol'));
-      return paragraphs.length >= 2 && hasText(paragraphs[0]) && hasText(paragraphs.at(-1)) && [...section.querySelectorAll('ol')].some(ol => [...ol.children].filter(li => li.tagName === 'LI' && hasText(li)).length >= 3);
-    });
-    const section = ready || sections[0];
-    const lists = [...(section?.querySelectorAll('ol') || [])];
+    const lists = [...dom.querySelectorAll('ol')];
     const list = lists.find(ol => [...ol.children].filter(li => li.tagName === 'LI' && hasText(li)).length >= 3) || lists[0];
-    const paragraphs = [...(section?.querySelectorAll('p') || [])].filter(p => !p.closest('ol'));
-    return {input: paragraphs[0], output: paragraphs.at(-1), list, steps: [...(list?.children || [])].filter(li => li.tagName === 'LI' && hasText(li))};
+    return {list, steps: [...(list?.children || [])].filter(li => li.tagName === 'LI' && hasText(li))};
   }
   function pairedTagCount(code, tag) {
     const openings = [...code.matchAll(new RegExp(`<${tag}(?=[\\s>])[^>]*>`, 'gi'))].length;
@@ -80,7 +73,7 @@
     if (index === 1) return pairedTagCount(code, 'p') > 0 && [...dom.querySelectorAll('p')].some(hasText);
     if (index === 2) {
       const workflow = workflowNodes(dom);
-      return pairedTagCount(code, 'section') > 0 && pairedTagCount(code, 'ol') > 0 && pairedTagCount(code, 'p') >= 2 && pairedTagCount(code, 'li') >= 3 && hasText(workflow.input) && hasText(workflow.output) && workflow.steps.length >= 3 && !!(workflow.input.compareDocumentPosition(workflow.list) & Node.DOCUMENT_POSITION_FOLLOWING) && !!(workflow.list.compareDocumentPosition(workflow.output) & Node.DOCUMENT_POSITION_FOLLOWING);
+      return pairedTagCount(code, 'ol') > 0 && pairedTagCount(code, 'li') >= 3 && workflow.steps.length >= 3;
     }
     if (index === 3) return pairedTagCount(code, 'ul') > 0 && pairedTagCount(code, 'li') >= 2 && pairedTagCount(code, 'p') >= 4 && [...dom.querySelectorAll('ul')].some(ul => [...ul.children].filter(li => li.tagName === 'LI' && [...li.querySelectorAll('p')].filter(hasText).length >= 2).length >= 2);
     if (!pairedTagCount(code, 'a')) return false;
@@ -165,17 +158,17 @@
   }
   function workflowParts() {
     const nodes = workflowNodes(fragment(drafts[2]));
-    return { input: nodes.input?.textContent.trim() || '', steps: nodes.steps.map(li => li.textContent.trim()), output: nodes.output?.textContent.trim() || '' };
+    return {steps: nodes.steps.map(li => li.textContent.trim())};
   }
   function updateTrace() {
     const parts = workflowParts();
     const ready = valid(2);
     $('#trace-next').disabled = !ready;
     $('#trace-reset').disabled = traceStep < 0;
-    $('#trace-help').textContent = ready ? 'Follow your written procedure. This is a walkthrough, not an execution engine.' : 'Add an input, three steps, and an output to enable the walkthrough.';
-    $('#trace-next').textContent = traceStep < 0 ? 'Trace first step →' : traceStep < parts.steps.length - 1 ? 'Next step →' : traceStep === parts.steps.length - 1 ? 'Compare with output →' : 'Trace again ↺';
-    $('#trace-position').textContent = traceStep < 0 ? 'START / INPUT' : traceStep < parts.steps.length ? `STEP ${traceStep + 1} / ${parts.steps.length}` : 'FINISH / OUTPUT';
-    $('#trace-content').textContent = traceStep < 0 ? parts.input || 'Your input description will appear here.' : traceStep < parts.steps.length ? parts.steps[traceStep] : parts.output;
+    $('#trace-help').textContent = ready ? 'Follow your written list one step at a time.' : 'Add three complete list items to enable the walkthrough.';
+    $('#trace-next').textContent = traceStep < 0 ? 'Trace first step →' : traceStep < parts.steps.length - 1 ? 'Next step →' : 'Trace again ↺';
+    $('#trace-position').textContent = traceStep < 0 ? 'READY TO TRACE' : `STEP ${traceStep + 1} / ${parts.steps.length}`;
+    $('#trace-content').textContent = traceStep < 0 ? 'Your first list item will appear here.' : parts.steps[traceStep];
   }
   function renderProgress() {
     const complete = checked.every(Boolean);
@@ -241,11 +234,11 @@
   });
   $('#trace-next').addEventListener('click', () => {
     const parts = workflowParts();
-    traceStep = traceStep >= parts.steps.length ? -1 : traceStep + 1;
+    traceStep = traceStep >= parts.steps.length - 1 ? -1 : traceStep + 1;
     updateTrace(); renderPreview();
     $('#trace-announcement').textContent = $('#trace-position').textContent + ': ' + $('#trace-content').textContent;
   });
-  $('#trace-reset').addEventListener('click', () => { traceStep = -1; updateTrace(); renderPreview(); $('#trace-announcement').textContent = 'Trace restarted. Input: ' + workflowParts().input; });
+  $('#trace-reset').addEventListener('click', () => { traceStep = -1; updateTrace(); renderPreview(); $('#trace-announcement').textContent = 'Trace restarted. Ready to trace your first step.'; });
   $('#check-mission').addEventListener('click', () => {
     checked[current] = valid(current);
     setFeedback(checked[current] ? missions[current].success : missions[current].retry, checked[current]);
