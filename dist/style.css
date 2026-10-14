@@ -151,3 +151,14 @@ dialog::backdrop{background:#0A038E85}
 #finished-code-source{display:block;width:100%;height:clamp(300px,45vh,520px);padding:18px;border:1px solid #8ABEDB;border-radius:7px;background:#E9F8FF;color:#0A038E;font:12px/1.65 monospace;resize:vertical}
 #finished-code-status{font-size:12px;color:#303766;margin:12px 0 0}
 @media(max-width:760px){.finished-code-content{padding:18px}.finished-code-heading{display:block}.finished-code-actions{margin-top:16px}.finished-code-actions .primary,.finished-code-actions .light-button{padding:11px 13px;font-size:12px}#finished-code-source{font-size:11px;height:340px}}
+
+/* The v1 opening keeps the focus on one message against the original dark-blue field. */
+.hero{width:100%;max-width:none;grid-template-columns:1fr;gap:0;padding:72px max(56px,calc((100% - 1320px)/2)) 67px;background:linear-gradient(118deg,#0A038E 0%,#1429AB 56%,#2C64E8 100%);color:#FFF}
+.hero .eyebrow,.hero-copy{color:#D9F4FF}
+.hero h1{color:#FFF}
+.hero h1 span{color:#BDEBFF}
+.hero .tiny-square{background:#27B5F5}
+.hero .primary{background:#27B5F5;color:#0A038E}
+.hero .primary:hover{background:#BDEBFF}
+.hero .text-link{color:#FFF}
+@media(max-width:760px){.hero{padding:54px 28px 50px}}

@@ -8,16 +8,15 @@ Run `python3 -m http.server 4173 --directory dist`, then open http://localhost:4
 
 ## Introduction and computational thinking
 
-The five missions ask students to introduce themselves, define a research or coursework focus, model a procedure, design test cases, and link a relevant resource.
+The five missions ask students to introduce themselves, define a focus, make a heading and unordered list of things they enjoy, emphasize text with `em`, and link a relevant resource.
 
 Each guided mission opens a blank HTML editor. Students type the opening and closing tags themselves; the mission prompts and hints describe the needed structure without prefilled markup. The live preview renders their code, and the complete source appears after all five missions, ready to copy into VS Code. The rest of the field guide offers HTML examples for reference.
 
-- The third mission uses an ordered list with at least three actions.
-- The trace walks through the student's own list and highlights the corresponding step in the preview. It does not execute an algorithm, transform data, or infer an answer.
-- Test cases include both a typical input and an edge-case input, each with an expected result.
-- Reflection prompts ask students to identify dependencies, ambiguities, assumptions, and changes suggested by their tests.
-- Completion checks confirm the requested HTML structure, content, and closing tags, not the correctness or quality of reasoning. Peer review and manual tracing are part of the activity.
-- Completing all five missions reveals the full, self-contained `index.html` below the activity, with copy and select-all controls for pasting into VS Code. The code updates if a completed answer is edited and disappears if a required answer becomes invalid.
+- The third mission requires an `h2`, a `ul`, and at least three filled `li` elements.
+- The fourth mission requires a paragraph containing meaningful text wrapped in an `em` element. `em` usually appears in italics; `strong` is the element for strong importance.
+- Mission 5 accepts `https://example.com`, `http://example.com`, and beginner-entered `www.example.com` links. `www.` links become HTTPS in the preview and export.
+- Completion checks confirm the requested HTML structure, content, and closing tags.
+- Completing all five missions reveals a clean `index.html` below the activity, with copy and select-all controls for pasting into VS Code. It includes only the doctype, English language declaration, UTF-8, title, and body—no CSS or JavaScript.
 
 The avatar picker and its assets were removed from the activity. The HTML reference still teaches images and alt text.
 
@@ -25,25 +24,24 @@ The avatar picker and its assets were removed from the activity. The HTML refere
 
 - `dist/index.html` and `dist/style.css`: semantic interface and responsive styling.
 - `dist/script.js`: searchable tag reference, syntax highlighting, dialogs, clipboard, and original small demos.
-- `dist/missions.js`: mission content, validation, draft state, tracing, isolated preview, and complete-page export.
+- `dist/missions.js`: mission content, validation, draft state, isolated preview, and complete-page export.
 
-Drafts stay in memory and reset on reload. The experiment editor preserves a separate draft. Copy creates a complete HTML document with embedded CSS. Scripts, event handlers, and active embedded documents are removed from preview/export; a sandbox and restrictive content policy isolate the preview. HTTP(S) links work in both copied pages and the preview, opening in a separate tab with noopener/noreferrer. The iframe allows popups without granting scripts or same-origin access to learner content. No student data is submitted or persisted.
+Drafts stay in memory and reset on reload. The experiment editor preserves a separate draft. Copy creates a clean HTML document. Scripts, event handlers, and active embedded documents are removed from preview/export; a sandbox and restrictive content policy isolate the preview. HTTP(S) links work in both copied pages and the preview, opening in a separate tab with noopener/noreferrer. The iframe allows popups without granting scripts or same-origin access to learner content. No student data is submitted or persisted.
 
 ## Verification
 
 Browser checks cover:
 
 - Each mission editor starts empty and remains empty after reset; an unclosed heading does not pass the first check.
-- Empty-list rejection and disabled tracing until three steps are present.
-- Correct ordered trace progression, matching preview highlighting, and restart.
-- Missing test-case predictions rejected; populated typical and edge cases accepted.
-- Editing a completed list to fewer than three steps clears completion and disables tracing.
-- Five-step completion, self-contained exported document contents, and both workflow and test-case inclusion.
+- The third mission rejects missing headings, unclosed list markup, and lists with fewer than three items.
+- The emphasis mission rejects paragraphs without a completed `em` element.
+- `www.` links pass the fifth-mission check and become HTTPS links in the preview and export.
+- Five-step completion and clean exported document contents.
 - Inline full-code reveal after completion, exact clipboard copying, select-all, live refresh after a valid edit, and hiding the panel when a completed answer becomes invalid.
-- Workflow controls hidden in the separate experiment editor.
+- No trace controls appear in the list mission.
 - Responsive layout.
 
-Exported markup and embedded styles were inspected. The browser downloaded the complete HTML file successfully; standalone rendering of that downloaded file was not separately checked. JavaScript syntax and Git whitespace checks pass.
+Exported markup was inspected to confirm it has no embedded styles or scripts. JavaScript syntax and Git whitespace checks pass.
 
 ## Copy and link regression checks
 
