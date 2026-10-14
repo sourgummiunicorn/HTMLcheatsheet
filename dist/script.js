@@ -80,7 +80,13 @@ $('#template-code').innerHTML = template.split('\n').map(line=>`<span class="cod
 const annotations=[['<!DOCTYPE html>','Tells the browser to use modern HTML.'],['<html lang="en">','The root element. lang names the page’s language.'],['<head>','Information about the page, usually not visible.'],['<meta charset="UTF-8">','Supports letters, symbols, and more.'],['<meta name="viewport">','Helps the page display correctly on phones.'],['<title>','The text in your browser tab.'],['<link>','Connects your CSS stylesheet.'],['<body>','The visible content of your page.'],['<script>','Connects your JavaScript file.']];
 $('#annotations').innerHTML=annotations.map(([tag,text])=>`<div class="annotation"><code>${escapeHTML(tag)}</code><p>${text}</p></div>`).join('');
 $('#form-code').innerHTML=highlight(formCode);
-$('#class-code').innerHTML=highlight('<div id="uniqueID" class="card featured"></div>')+'\n\n<span class="syntax-tag">#uniqueID</span> { }   <span class="syntax-comment">/* One unique element */</span>\n<span class="syntax-tag">.card</span> { }       <span class="syntax-comment">/* All elements with class="card" */</span>\n<span class="syntax-tag">.featured</span> { }   <span class="syntax-comment">/* A second, reusable class */</span>';
+const classExample = `<article id="research-card">
+  <h4>Research interests</h4>
+  <span class="topic">AI ethics</span>
+  <span class="topic">Data justice</span>
+  <span class="topic">Accessibility</span>
+</article>`;
+$('#class-code').innerHTML=highlight(classExample);
 const categories=['All tags','Text','Structure','Media','Lists','Forms'];
 let category='All tags';
 $('#filters').innerHTML=categories.map(c=>`<button data-category="${c}" aria-pressed="${c===category}">${c==='Media'?'Links & media':c}</button>`).join('');
@@ -95,7 +101,37 @@ $('#tag-search').addEventListener('input',renderTags);
 $('#filters').addEventListener('click',e=>{const b=e.target.closest('[data-category]');if(!b)return;category=b.dataset.category;$$('[data-category]').forEach(el=>el.setAttribute('aria-pressed',String(el===b)));renderTags()});
 $('#clear-search').addEventListener('click',()=>{$('#tag-search').value='';category='All tags';$$('[data-category]').forEach(el=>el.setAttribute('aria-pressed',String(el.dataset.category===category)));renderTags();$('#tag-search').focus()});
 let activeTag;
-function openTag(tag){activeTag=tags.find(t=>t.tag===tag);if(!activeTag)return;const t=activeTag;$('#dialog-category').textContent=`FIELD NOTES / ${t.category}`;$('#dialog-body').innerHTML=`<span class="dialog-tag-label">TAG</span><h2 id="dialog-title">&lt;${t.tag}&gt;</h2><h3>What it does</h3><p>${t.description} ${t.why}</p><div class="example-heading"><h3>Example</h3><button class="copy-button" data-copy="tag">Copy example ⧉</button></div><pre>${highlight(t.example)}</pre><div class="dialog-note"><h3>Important note</h3><p>${escapeHTML(t.note)}</p></div>`;$('#tag-dialog').showModal()}
+function previewPlaceholder(doc,label,detail){
+  const box=doc.createElement('div');
+  box.className='media-placeholder';
+  const title=doc.createElement('strong'); title.textContent=label;
+  const copy=doc.createElement('span'); copy.textContent=detail;
+  box.append(title,copy);
+  return box;
+}
+function buildTagPreview(example){
+  const parsed=new DOMParser().parseFromString(`<div id="preview-root">${example}</div>`,'text/html');
+  const root=parsed.querySelector('#preview-root');
+  root.querySelectorAll('script,style,link,meta,base').forEach(node=>node.remove());
+  root.querySelectorAll('img').forEach(node=>node.replaceWith(previewPlaceholder(parsed,'Image',node.getAttribute('alt')?`Alt text: ${node.getAttribute('alt')}`:'An image file would appear here.')));
+  root.querySelectorAll('iframe').forEach(node=>node.replaceWith(previewPlaceholder(parsed,'Embedded content',node.getAttribute('title')||'A page or video would appear here.')));
+  root.querySelectorAll('audio').forEach(node=>node.replaceWith(previewPlaceholder(parsed,'Audio player','Audio controls would appear when a sound file is supplied.')));
+  root.querySelectorAll('video').forEach(node=>node.replaceWith(previewPlaceholder(parsed,'Video player','Video controls would appear when a video file is supplied.')));
+  root.querySelectorAll('*').forEach(node=>[...node.attributes].forEach(attribute=>{
+    const name=attribute.name.toLowerCase();
+    if(name.startsWith('on')||['src','srcset','poster','action','formaction','target','download'].includes(name))node.removeAttribute(attribute.name);
+    if(name==='href')node.setAttribute('href','#preview-root');
+  }));
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; form-action 'none'; base-uri 'none'"><style>*{box-sizing:border-box}body{margin:0;padding:18px;background:#fff;color:#1c2922;line-height:1.5}a{color:#2c64e8}input,textarea,select,button{max-width:100%;margin:4px 2px}fieldset{max-width:100%}.media-placeholder{min-height:118px;padding:20px;border:2px dashed #8abedb;border-radius:8px;background:#e9f8ff;display:grid;place-content:center;text-align:center;font-family:system-ui,sans-serif;color:#0a038e}.media-placeholder strong{font-size:16px}.media-placeholder span{margin-top:6px;font-size:12px;color:#303766}</style></head><body>${root.innerHTML}</body></html>`;
+}
+function openTag(tag){
+  activeTag=tags.find(t=>t.tag===tag);if(!activeTag)return;
+  const t=activeTag;
+  $('#dialog-category').textContent=`FIELD NOTES / ${t.category}`;
+  $('#dialog-body').innerHTML=`<span class="dialog-tag-label">TAG</span><h2 id="dialog-title">&lt;${t.tag}&gt;</h2><h3>What it does</h3><p>${t.description} ${t.why}</p><div class="preview-heading"><h3>Browser preview</h3><span>Default HTML appearance</span></div><div class="tag-preview"><iframe id="dialog-preview" sandbox title="Rendered preview of the ${escapeHTML(t.tag)} example"></iframe></div><div class="example-heading"><h3>Example code</h3><button class="copy-button" data-copy="tag">Copy example ⧉</button></div><pre>${highlight(t.example)}</pre><div class="dialog-note"><h3>Important note</h3><p>${escapeHTML(t.note)}</p></div>`;
+  $('#dialog-preview').srcdoc=buildTagPreview(t.example);
+  $('#tag-dialog').showModal();
+}
 $('#tag-grid').addEventListener('click',e=>{const b=e.target.closest('[data-tag]');if(b)openTag(b.dataset.tag)});
 $('#close-dialog').addEventListener('click',()=>$('#tag-dialog').close());
 $('#tag-dialog').addEventListener('click',e=>{if(e.target===$('#tag-dialog')){const r=e.target.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)e.target.close()}});
@@ -150,6 +186,16 @@ function updateText(){const tag=$('#text-tag').value;const element=document.crea
 $('#text-tag').addEventListener('change',updateText);
 function updateList(tag){$('#list-preview').innerHTML=`<${tag}><li>Have an idea</li><li>Make a little thing</li><li>Keep exploring</li></${tag}>`;$('#list-code').innerHTML=highlight(`<${tag}>\n  <li>Have an idea</li>\n  <li>Make a little thing</li>\n  <li>Keep exploring</li>\n</${tag}>`);$$('[data-list]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.list===tag)));$('#list-feedback').textContent=tag==='ul'?'A collection of ideas. No particular order.':'A sequence of steps. Order matters.'}
 $$('[data-list]').forEach(b=>b.addEventListener('click',()=>updateList(b.dataset.list)));
+function updateSelectorDemo(mode){
+  const idMode=mode==='id';
+  $$('[data-selector-demo]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.selectorDemo===mode)));
+  $$('[data-demo-id],[data-demo-class]').forEach(node=>node.classList.remove('is-match'));
+  const matches=idMode?$$('[data-demo-id]'):$$('[data-demo-class]');
+  matches.forEach(node=>node.classList.add('is-match'));
+  $('#selector-match-count').textContent=`${matches.length} ${matches.length===1?'match':'matches'}`;
+  $('#selector-feedback').innerHTML=idMode?'<code>#research-card</code> finds one unique element.':'<code>.topic</code> finds all elements with that shared class.';
+}
+$$('[data-selector-demo]').forEach(button=>button.addEventListener('click',()=>updateSelectorDemo(button.dataset.selectorDemo)));
 $('#contact-demo').addEventListener('submit',e=>{e.preventDefault();$('#form-feedback').textContent=`Hello, ${$('#contact-name').value.trim()||'friend'}! Your form is valid. Nothing was sent or saved.`});
 $$('[data-reset]').forEach(b=>b.addEventListener('click',()=>{switch(b.dataset.reset){case'text':$('#text-tag').value='h1';updateText();break;case'list':updateList('ul');break;case'form':$('#contact-demo').reset();$('#form-feedback').textContent='A button needs form behavior or JavaScript to perform an action.';break;}toast('Reset. A fresh start.')}));
 const rules=['Close tags when required: <p>Hello</p>.','Nest correctly: <p><em>Hello</em></p>.','Use one main h1 on most simple pages.','Put visible content inside body.','Write alt text for meaningful images.','Keep every id unique on the page.','Use lowercase tag names for consistency.','Put quotation marks around attribute values.','Void elements have no closing tag.'];
@@ -157,4 +203,4 @@ $('#rules').innerHTML=rules.map(rule=>`<div class="rule"><span aria-hidden="true
 document.addEventListener('keydown',e=>{if(e.key==='/'&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!$('#tag-dialog').open&&!$('#export-dialog').open&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){e.preventDefault();$('#tag-search').focus();$('#reference').scrollIntoView()}});
 const observer=new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting){$$('.nav-inner a').forEach(a=>{const active=a.hash==='#'+entry.target.id;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current')})}}},{rootMargin:'-15% 0px -65% 0px'});
 $$('main > section[id], .reference-section').forEach(s=>observer.observe(s));
-renderTags();updateText();updateList('ul');
+renderTags();updateText();updateList('ul');updateSelectorDemo('id');

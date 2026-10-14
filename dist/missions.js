@@ -17,24 +17,24 @@
   },
   {
     "title": "Share what you enjoy",
-    "prompt": "Code a small section about things you enjoy. Add an h2 heading, then create an unordered list with at least three list items. Type and close every tag yourself.",
-    "hint": "Use h2 for your heading. An unordered list uses ul, with one li element for each thing you enjoy.",
-    "success": "Your heading and unordered list are ready.",
-    "retry": "Add a complete h2 heading and an unordered list with at least three complete list items."
+    "prompt": "Add a section heading called “Things I enjoy” using h2. Under it, create an unordered list with at least three things you enjoy, with one item inside each li element. Type and close the h2, ul, and li tags yourself.",
+    "hint": "Use h2 for the section title, ul for the bulleted list, and one li for each interest—for example: designing interactive projects, exploring cafés, or learning with AI.",
+    "success": "Your page now has a heading and a list of things you enjoy.",
+    "retry": "Add a complete h2, a complete ul, and at least three complete list items with text inside them."
   },
   {
     "title": "Emphasize an idea",
-    "prompt": "Write a paragraph about something important to you. Wrap a few important words with em opening and closing tags to emphasize them.",
-    "hint": "The em element usually appears in italics. Place it inside a paragraph around the exact words you want to emphasize.",
-    "success": "Your paragraph uses emphasis inside the text.",
-    "retry": "Add a complete paragraph with meaningful text and an em element around a few words."
+    "prompt": "Write a short paragraph about something you want to learn. Inside the paragraph, wrap the words you most want readers to notice in a complete em element. Browsers usually show emphasized text in italics.",
+    "hint": "Use a p element for the full sentence. Place the opening em tag before the important words and the closing em tag immediately after them.",
+    "success": "Your paragraph now emphasizes the idea you want readers to notice.",
+    "retry": "Add a complete paragraph, then place a complete em element with meaningful text inside that paragraph."
   },
   {
     "title": "Connect your work",
     "prompt": "Code a link to a resource that informs your work. Type an a element with an href attribute, meaningful link text, and a closing tag.",
-    "hint": "Use a full https:// or http:// address for href. Name the resource rather than writing “click here.”",
+    "hint": "Use an address such as https://example.com or www.example.com for href. Name the resource rather than writing “click here.”",
     "success": "Your profile now connects readers to a relevant resource.",
-    "retry": "Add a complete a element with a full web address, meaningful link text, and a closing tag."
+    "retry": "Add a complete a element with meaningful link text and an href address such as https://example.com or www.example.com."
   }
 ];
   const drafts = missions.map(() => '');
@@ -58,26 +58,37 @@
     const closings = [...code.matchAll(new RegExp(`</${tag}\\s*>`, 'gi'))].length;
     return openings > 0 && openings === closings ? openings : 0;
   }
+  function normalizedWebHref(value) {
+    let href = (value || '').trim();
+    if (/^www\./i.test(href)) href = `https://${href}`;
+    try {
+      const url = new URL(href);
+      return ['http:', 'https:'].includes(url.protocol) && url.hostname ? url.href : '';
+    } catch { return ''; }
+  }
   function valid(index) {
     const code = drafts[index];
     const dom = fragment(code);
     if (index === 0) return pairedTagCount(code, 'h1') > 0 && [...dom.querySelectorAll('h1')].some(hasText);
     if (index === 1) return pairedTagCount(code, 'p') > 0 && [...dom.querySelectorAll('p')].some(hasText);
-    if (index === 2) return pairedTagCount(code, 'h2') > 0 && pairedTagCount(code, 'ul') > 0 && pairedTagCount(code, 'li') >= 3 && [...dom.querySelectorAll('ul')].some(ul => [...ul.children].filter(li => li.tagName === 'LI' && hasText(li)).length >= 3);
-    if (index === 3) return pairedTagCount(code, 'p') > 0 && pairedTagCount(code, 'em') > 0 && [...dom.querySelectorAll('p')].some(p => hasText(p) && [...p.querySelectorAll('em')].some(hasText));
+    if (index === 2) {
+      const hasHeading = pairedTagCount(code, 'h2') > 0 && [...dom.querySelectorAll('h2')].some(hasText);
+      const hasList = pairedTagCount(code, 'ul') > 0 && pairedTagCount(code, 'li') >= 3 && [...dom.querySelectorAll('ul')].some(ul => [...ul.children].filter(li => li.tagName === 'LI' && hasText(li)).length >= 3);
+      return hasHeading && hasList;
+    }
+    if (index === 3) {
+      const hasTags = pairedTagCount(code, 'p') > 0 && pairedTagCount(code, 'em') > 0;
+      return hasTags && [...dom.querySelectorAll('p')].some(p => hasText(p) && [...p.querySelectorAll('em')].some(hasText));
+    }
     if (!pairedTagCount(code, 'a')) return false;
-    return [...dom.querySelectorAll('a[href]')].some(a => {
-      if (!hasText(a)) return false;
-      const href = a.getAttribute('href').trim();
-      try { const url = new URL(href.startsWith('www.') ? `https://${href}` : href); return ['http:', 'https:'].includes(url.protocol) && !!url.hostname; } catch { return false; }
-    });
+    return [...dom.querySelectorAll('a[href]')].some(a => hasText(a) && !!normalizedWebHref(a.getAttribute('href')));
   }
   const pageCSS = `
     * { box-sizing: border-box; }
     body {
       margin: 0;
       padding: 32px 24px;
-      background: #BDEBFF;
+      background: #F7F9F8;
       color: #000;
       font: 16px/1.7 "Avenir Next", "Segoe UI", sans-serif;
       overflow-wrap: anywhere;
@@ -111,7 +122,7 @@
   function assembled(preview = false) {
     const pieces = drafts.map((code, i) => {
       if (!visited.has(i)) return '';
-      return preview ? `<div class="mission-fragment${i === current ? ' current-fragment' : ''}">${code}</div>` : code;
+      return preview ? `<div class="mission-fragment${i === current && !checked[i] ? ' current-fragment' : ''}">${code}</div>` : code;
     });
     return `<main class="profile-card">\n${pieces.filter(Boolean).join('\n\n')}\n</main>`;
   }
@@ -123,20 +134,14 @@
       [...el.attributes].filter(a => /^on/i.test(a.name)).forEach(a => el.removeAttribute(a.name));
     });
     dom.querySelectorAll('a').forEach(a => {
-      const href = (a.getAttribute('href') || '').trim();
-      let allowed = false;
-      try {
-        const url = new URL(href.startsWith('www.') ? `https://${href}` : href);
-        allowed = ['http:', 'https:'].includes(url.protocol);
-        if (allowed) a.setAttribute('href', url.href);
-      } catch {}
-      if (!allowed) { a.removeAttribute('href'); a.classList.add('preview-link'); }
-      else { a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener noreferrer'); }
+      const href = normalizedWebHref(a.getAttribute('href'));
+      if (!href) { a.removeAttribute('href'); a.classList.add('preview-link'); }
+      else { a.setAttribute('href', href); a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener noreferrer'); }
     });
     const container = document.createElement('div'); container.append(dom);
-    const empty = preview && !container.textContent.trim() && !container.querySelector('img') ? '<p class="empty-introduction">Your story starts with a hello.<br>Type in the editor to see it here.</p>' : '';
     if (!preview) return `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>My introduction</title>\n</head>\n<body>\n${container.innerHTML}\n</body>\n</html>`;
-    const previewCSS = '.mission-fragment{padding:8px 12px;margin:0 -12px 8px;min-height:8px}.current-fragment{background:#e9f8ff;outline:1px dashed #2C64E8;border-radius:8px}.empty-introduction{color:#000;font-size:14px;text-align:center;padding:54px 0}';
+    const empty = preview && !container.textContent.trim() && !container.querySelector('img') ? '<p class="empty-introduction">Your story starts with a hello.<br>Type in the editor to see it here.</p>' : '';
+    const previewCSS = preview ? '.mission-fragment{padding:8px 12px;margin:0 -12px 8px;min-height:8px}.current-fragment{background:#e9f8ff;outline:1px dashed #2C64E8;border-radius:8px}.empty-introduction{color:#000;font-size:14px;text-align:center;padding:54px 0}' : '';
     return `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data:; style-src 'unsafe-inline'; form-action 'none'; base-uri 'none';">\n  <title>My introduction</title>\n  <style>${pageCSS}${previewCSS}</style>\n</head>\n<body>\n${container.innerHTML}${empty}\n</body>\n</html>`;
   }
   function renderPreview() {
@@ -162,7 +167,7 @@
     wasComplete = complete;
     const last = current === missions.length - 1;
     $('#next-mission').disabled = last ? !complete : !checked[current];
-    $('#next-mission').textContent = last ? 'See my finished page ↗' : 'Next mission →';
+    $('#next-mission').textContent = last ? 'See my finished page ↓' : 'Next mission →';
     $('#mission-next-note').textContent = last && !complete ? 'Complete all five missions to finish your page.' : checked[current] ? 'Ready when you are. You can come back anytime.' : 'Check your step to unlock the next mission.';
   }
   function setFeedback(message, success = false) {
@@ -184,7 +189,7 @@
     $('#mission-hint-text').textContent = mission.hint;
     $('#reasoning-prompt').hidden = !mission.reflection;
     $('#reasoning-text').textContent = mission.reflection || '';
-    editor.classList.toggle('structured-mission-editor', index === 2);
+    editor.classList.remove('structured-mission-editor');
     $('#mission-editor-label').textContent = 'YOUR HTML';
     editor.value = drafts[index];
     editor.setAttribute('aria-describedby', 'mission-instruction challenge-help');
@@ -207,7 +212,10 @@
     checked[current] = valid(current);
     setFeedback(checked[current] ? missions[current].success : missions[current].retry, checked[current]);
     renderProgress(); renderPreview();
-    if (checked.every(Boolean)) setFeedback(missions[current].success + ' All five missions are complete. You made your introduction page!', true);
+    if (checked.every(Boolean)) {
+      setFeedback(missions[current].success + ' All five missions are complete. Select “See my finished page” below.', true);
+      $('#next-mission').focus({preventScroll:true});
+    }
   });
   $('#next-mission').addEventListener('click', () => {
     if (current < missions.length - 1) selectMission(current + 1, true);
