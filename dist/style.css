@@ -20,7 +20,7 @@
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
 /* This early HTML exercise uses the browser's default typeface. */
-#text-preview{font-family:initial}
+#text-preview{font-family:"Times New Roman",Times,serif}
 
 /* Export stays usable when automatic clipboard access is unavailable. */
 #export-dialog{max-width:850px}#export-title{font:500 30px/1.2 Georgia,serif;margin-bottom:14px}#export-help{font-size:14px}#export-dialog label{font-size:12px;font-weight:600;color:#5b665d}#export-code{display:block;width:100%;height:clamp(160px,32vh,340px);margin-top:8px;padding:16px;border:1px solid #d8dfd2;border-radius:7px;background:#f7f9f8;color:#1c2922;font:12px/1.7 monospace;resize:vertical}#export-status{font-size:13px;line-height:1.6;margin:15px 0;color:#26704d}.export-actions{display:flex;flex-wrap:wrap;gap:10px}.export-actions .light-button{background:#edf3e7;color:#195537}.export-actions button{font-size:12px}#close-export{background:#edf3e7;border-radius:5px;width:32px;height:32px}@media(max-width:760px){#export-code{height:clamp(150px,28vh,240px);font-size:11px}#export-dialog{padding:20px}.export-actions{gap:8px}.export-actions button{padding:10px 12px}}
