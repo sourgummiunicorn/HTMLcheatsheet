@@ -112,17 +112,22 @@ function previewPlaceholder(doc,label,detail){
 function buildTagPreview(example){
   const parsed=new DOMParser().parseFromString(`<div id="preview-root">${example}</div>`,'text/html');
   const root=parsed.querySelector('#preview-root');
+  const catPreviewSrc=new URL('assets/cat-sleeping.png',window.location.href).href;
   root.querySelectorAll('script,style,link,meta,base').forEach(node=>node.remove());
-  root.querySelectorAll('img').forEach(node=>node.replaceWith(previewPlaceholder(parsed,'Image',node.getAttribute('alt')?`Alt text: ${node.getAttribute('alt')}`:'An image file would appear here.')));
+  root.querySelectorAll('img').forEach(node=>{
+    node.setAttribute('src',catPreviewSrc);
+    node.classList.add('example-cat-preview');
+  });
   root.querySelectorAll('iframe').forEach(node=>node.replaceWith(previewPlaceholder(parsed,'Embedded content',node.getAttribute('title')||'A page or video would appear here.')));
   root.querySelectorAll('audio').forEach(node=>node.replaceWith(previewPlaceholder(parsed,'Audio player','Audio controls would appear when a sound file is supplied.')));
   root.querySelectorAll('video').forEach(node=>node.replaceWith(previewPlaceholder(parsed,'Video player','Video controls would appear when a video file is supplied.')));
   root.querySelectorAll('*').forEach(node=>[...node.attributes].forEach(attribute=>{
     const name=attribute.name.toLowerCase();
-    if(name.startsWith('on')||['src','srcset','poster','action','formaction','target','download'].includes(name))node.removeAttribute(attribute.name);
+    const isPreviewCat=name==='src'&&node.matches('img.example-cat-preview')&&attribute.value===catPreviewSrc;
+    if(!isPreviewCat&&(name.startsWith('on')||['src','srcset','poster','action','formaction','target','download'].includes(name)))node.removeAttribute(attribute.name);
     if(name==='href')node.setAttribute('href','#preview-root');
   }));
-  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; form-action 'none'; base-uri 'none'"><style>*{box-sizing:border-box}body{margin:0;padding:18px;background:#fff;color:#1c2922;line-height:1.5}a{color:#2c64e8}input,textarea,select,button{max-width:100%;margin:4px 2px}fieldset{max-width:100%}.media-placeholder{min-height:118px;padding:20px;border:2px dashed #8abedb;border-radius:8px;background:#e9f8ff;display:grid;place-content:center;text-align:center;font-family:system-ui,sans-serif;color:#0a038e}.media-placeholder strong{font-size:16px}.media-placeholder span{margin-top:6px;font-size:12px;color:#303766}</style></head><body>${root.innerHTML}</body></html>`;
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src http: https:; style-src 'unsafe-inline'; form-action 'none'; base-uri 'none'"><style>*{box-sizing:border-box}body{margin:0;padding:18px;background:#fff;color:#1c2922;line-height:1.5}a{color:#2c64e8}input,textarea,select,button{max-width:100%;margin:4px 2px}fieldset{max-width:100%}.example-cat-preview{display:block;max-width:100%;height:190px;object-fit:cover;border-radius:8px}.media-placeholder{min-height:118px;padding:20px;border:2px dashed #8abedb;border-radius:8px;background:#e9f8ff;display:grid;place-content:center;text-align:center;font-family:system-ui,sans-serif;color:#0a038e}.media-placeholder strong{font-size:16px}.media-placeholder span{margin-top:6px;font-size:12px;color:#303766}</style></head><body>${root.innerHTML}</body></html>`;
 }
 function openTag(tag){
   activeTag=tags.find(t=>t.tag===tag);if(!activeTag)return;
