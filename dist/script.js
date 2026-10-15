@@ -21,6 +21,11 @@ const template = `<!DOCTYPE html>
 </head>
 <body>
   <h1>Hello!</h1>
+  <div class="intro">
+    <h2>About me</h2>
+    <p>I’m learning to build things.</p>
+    <a href="https://example.com">Visit my page</a>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>`;
@@ -77,7 +82,7 @@ const tags = [
  ['button','Forms','A clickable control for an action.','Native buttons support keyboard activation.','<button type="button">Say hello</button>\n<button type="submit">Send form</button>','A button needs HTML form behavior or JavaScript to act. Inside a form, specify type="button" for a button that should not submit.']
 ].map(([tag,category,description,why,example,note])=>({tag,category,description,why,example,note}));
 $('#template-code').innerHTML = template.split('\n').map(line=>`<span class="code-line">${highlight(line)}</span>`).join('');
-const annotations=[['<!DOCTYPE html>','Tells the browser to use modern HTML.'],['<html lang="en">','The root element. lang names the page’s language.'],['<head>','Information about the page, usually not visible.'],['<meta charset="UTF-8">','Supports letters, symbols, and more.'],['<meta name="viewport">','Helps the page display correctly on phones.'],['<title>','The text in your browser tab.'],['<link>','Connects your CSS stylesheet.'],['<body>','The visible content of your page.'],['<script>','Connects your JavaScript file.']];
+const annotations=[['<!DOCTYPE html>','Tells the browser to use modern HTML.'],['<html lang="en">','The root element. lang names the page’s language.'],['<head>','Information about the page, usually not visible.'],['<meta charset="UTF-8">','Supports letters, symbols, and more.'],['<meta name="viewport">','Helps the page display correctly on phones.'],['<title>','The text in your browser tab.'],['<link>','Connects your CSS stylesheet.'],['<body>','The visible content of your page.'],['<div>','Groups related content together.'],['<h2>','Names a section below the main heading.'],['<p>','Adds a paragraph of text.'],['<a>','Creates a link to another page.'],['<script>','Connects your JavaScript file.']];
 $('#annotations').innerHTML=annotations.map(([tag,text])=>`<div class="annotation"><code>${escapeHTML(tag)}</code><p>${text}</p></div>`).join('');
 $('#form-code').innerHTML=highlight(formCode);
 const classExample = `<article id="research-card" class="card featured rounded">
