@@ -133,7 +133,7 @@ function openTag(tag){
   activeTag=tags.find(t=>t.tag===tag);if(!activeTag)return;
   const t=activeTag;
   $('#dialog-category').textContent=`FIELD NOTES / ${t.category}`;
-  $('#dialog-body').innerHTML=`<span class="dialog-tag-label">TAG</span><h2 id="dialog-title">&lt;${t.tag}&gt;</h2><h3>What it does</h3><p>${t.description} ${t.why}</p><div class="preview-heading"><h3>Browser preview</h3><span>Default HTML appearance</span></div><div class="tag-preview"><iframe id="dialog-preview" sandbox title="Rendered preview of the ${escapeHTML(t.tag)} example"></iframe></div><div class="example-heading"><h3>Example code</h3><button class="copy-button" data-copy="tag">Copy example ⧉</button></div><pre>${highlight(t.example)}</pre><div class="dialog-note"><h3>Important note</h3><p>${escapeHTML(t.note)}</p></div>`;
+  $('#dialog-body').innerHTML=`<span class="dialog-tag-label">TAG</span><h2 id="dialog-title">&lt;${t.tag}&gt;</h2><h3>What it does</h3><p>${t.description} ${t.why}</p><div class="preview-heading"><h3>Browser preview</h3><span>Default HTML appearance</span></div><div class="tag-preview"><iframe id="dialog-preview" sandbox="allow-same-origin" title="Rendered preview of the ${escapeHTML(t.tag)} example"></iframe></div><div class="example-heading"><h3>Example code</h3><button class="copy-button" data-copy="tag">Copy example ⧉</button></div><pre>${highlight(t.example)}</pre><div class="dialog-note"><h3>Important note</h3><p>${escapeHTML(t.note)}</p></div>`;
   $('#dialog-preview').srcdoc=buildTagPreview(t.example);
   $('#tag-dialog').showModal();
 }
