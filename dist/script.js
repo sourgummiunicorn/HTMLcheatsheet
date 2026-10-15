@@ -26,13 +26,13 @@ const template = `<!DOCTYPE html>
 </html>`;
 const formCode = `<form id="hello-form">
   <label for="name">Your name</label>
-  <input id="name" name="name" required>
+  <input id="name" name="name" placeholder="Alex" required>
 
   <label for="email">Email address</label>
-  <input id="email" name="email" type="email" required>
+  <input id="email" name="email" type="email" placeholder="alex@example.com" required>
 
   <label for="message">Your message</label>
-  <textarea id="message" name="message" required></textarea>
+  <textarea id="message" name="message" placeholder="I’m learning to build things." required></textarea>
 
   <button type="submit">Send a hello</button>
   <p id="result" role="status"></p>
