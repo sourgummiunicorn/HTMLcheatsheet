@@ -80,7 +80,7 @@ $('#template-code').innerHTML = template.split('\n').map(line=>`<span class="cod
 const annotations=[['<!DOCTYPE html>','Tells the browser to use modern HTML.'],['<html lang="en">','The root element. lang names the page’s language.'],['<head>','Information about the page, usually not visible.'],['<meta charset="UTF-8">','Supports letters, symbols, and more.'],['<meta name="viewport">','Helps the page display correctly on phones.'],['<title>','The text in your browser tab.'],['<link>','Connects your CSS stylesheet.'],['<body>','The visible content of your page.'],['<script>','Connects your JavaScript file.']];
 $('#annotations').innerHTML=annotations.map(([tag,text])=>`<div class="annotation"><code>${escapeHTML(tag)}</code><p>${text}</p></div>`).join('');
 $('#form-code').innerHTML=highlight(formCode);
-const classExample = `<article id="research-card">
+const classExample = `<article id="research-card" class="card featured rounded">
   <h4>Research interests</h4>
   <span class="topic">AI ethics</span>
   <span class="topic">Data justice</span>
