@@ -136,7 +136,11 @@
     dom.querySelectorAll('a').forEach(a => {
       const href = normalizedWebHref(a.getAttribute('href'));
       if (!href) { a.removeAttribute('href'); a.classList.add('preview-link'); }
-      else { a.setAttribute('href', href); a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener noreferrer'); }
+      else {
+        a.setAttribute('href', href);
+        if (preview) { a.setAttribute('target', '_blank'); a.setAttribute('rel', 'noopener noreferrer'); }
+        else { a.removeAttribute('target'); a.removeAttribute('rel'); }
+      }
     });
     const container = document.createElement('div'); container.append(dom);
     if (!preview) return `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>My introduction</title>\n</head>\n<body>\n${container.innerHTML}\n</body>\n</html>`;
