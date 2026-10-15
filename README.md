@@ -6,6 +6,10 @@ A dependency-free HTML reference and introduction activity for Programming with 
 
 Run `python3 -m http.server 4173 --directory dist`, then open http://localhost:4173. No installation or build step is required.
 
+## GitHub Pages
+
+The same static site files are also available at the repository root (`index.html`, `style.css`, `script.js`, `missions.js`, and `assets/`) so GitHub Pages can publish directly from the `main` branch’s root folder. The `dist/` copy remains for the private Site deployment.
+
 ## Introduction missions
 
 The five missions ask students to introduce themselves, define a focus, share things they enjoy, emphasize an important idea, and link a relevant resource.

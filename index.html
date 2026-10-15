@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An interactive HTML field guide for beginner coders. Explore tags, copy examples, and build your first page.">
+  <title>HTML Field Guide — Programming with AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.svg?v=blue-light-20261012" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css?v=v1-hero-free-20261015">
+  <script src="script.js?v=cat-preview-20261015" defer></script>
+  <script src="missions.js?v=v1-hero-free-20261015" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar"><a class="brand" href="#"><span class="brand-symbol">&lt;/&gt;</span> FIELD GUIDE <span class="brand-divider">/</span> <span class="brand-sub">HTML</span></a><span class="course">PROGRAMMING WITH AI <span class="status-dot"></span> BEGINNER EDITION</span><a class="top-link" href="#challenge">Build something <span aria-hidden="true">↗</span></a></header>
+<main id="main">
+<section class="hero wrap" aria-labelledby="page-title"><div><div class="eyebrow"><span class="tiny-square"></span> YOUR FIRST LANGUAGE OF THE WEB</div><h1 id="page-title">Small tags.<br><span>Big possibilities.</span></h1><p class="hero-copy">Meet HTML, the building blocks of every web page.<br class="desktop-break"> Explore a tag. Try an idea. Make something yours.</p><div class="hero-actions"><a class="primary" href="#structure">Start with the basics <span aria-hidden="true">↗</span></a><a class="text-link" href="#reference">Find a tag <span aria-hidden="true">↓</span></a></div></div></section>
+<nav class="section-nav" aria-label="Learning labs"><div class="wrap nav-inner"><a class="active" href="#structure"><span>01</span> Understand the structure</a><a href="#reference"><span>02</span> Find your tag</a><a href="#playground"><span>03</span> See what happens</a><a href="#challenge"><span>04</span> Introduce yourself</a></div></nav>
+<section id="structure" class="wrap lab"><div class="section-heading"><div class="section-number">01</div><div><div class="eyebrow">THE FOUNDATIONS</div><h2>Everything has a place.</h2></div><p>Start with a skeleton.<br>Then give it a little personality.</p></div><div class="structure-grid"><div class="code-window"><div class="window-bar"><div class="window-dots"><i></i><i></i><i></i></div><span>index.html</span><button class="copy-button" data-copy="template">Copy template <span aria-hidden="true">⧉</span></button></div><pre id="template-code" class="numbered"></pre><div class="window-foot"><span class="status-dot"></span> A complete starting point for your next page</div></div><div class="structure-notes"><div class="eyebrow">READ THE BLUEPRINT</div><div id="annotations"></div><p class="small-note"><b>Remember:</b> the <code>&lt;head&gt;</code> describes the page. The <code>&lt;body&gt;</code> contains what people see.</p></div></div><details class="core-panel" open><summary><span><span class="eyebrow">CORE IDEAS</span><strong>Learn to read an element.</strong></span><span class="disclosure" aria-hidden="true">+</span></summary><div class="core-content"><div class="element-code"><code>&lt;<span class="syntax-tag">a</span> <span class="syntax-attr">href</span>=<span class="syntax-value">"https://example.com"</span><br class="mobile-break"> <span class="syntax-attr">class</span>=<span class="syntax-value">"button"</span>&gt;Visit&lt;/<span class="syntax-tag">a</span>&gt;</code></div><div class="definition-grid"><div><b>01 / Element & tag</b><p>The whole piece is an element. <code>&lt;a&gt;</code> is its opening tag; <code>&lt;/a&gt;</code> closes it.</p></div><div><b>02 / Attribute</b><p>Extra information in the opening tag. Here: <code>href</code> and <code>class</code>.</p></div><div><b>03 / Value</b><p>The information assigned to an attribute: <code>https://example.com</code> and <code>button</code>.</p></div><div><b>04 / Content</b><p>What goes between the tags: <code>Visit</code>. Content can also include other elements.</p></div></div><div class="void-note"><span aria-hidden="true">↳</span><p><b>Some tags travel solo.</b> Void elements such as <code>img</code>, <code>input</code>, <code>br</code>, <code>hr</code>, <code>meta</code>, and <code>link</code> have no content or closing tag.</p></div></div></details></section>
+<section id="reference" class="reference-section"><div class="wrap lab"><div class="section-heading"><div class="section-number">02</div><div><div class="eyebrow">YOUR EVERYDAY TOOLKIT</div><h2>Find your tag.</h2></div><p>Small pieces, useful jobs.<br>Select a tag to open its field notes.</p></div><div class="search-row"><label class="search-box"><span aria-hidden="true">⌕</span><input id="tag-search" type="search" placeholder="Search a tag or what it does…" aria-label="Search tags"><kbd>/</kbd></label><span id="result-count" role="status"></span></div><div id="filters" class="filters" role="group" aria-label="Filter tags by category"></div><div id="tag-grid" class="tag-grid"></div><div id="empty-state" hidden>No tags found. Try “image”, “heading”, or “input”. <button id="clear-search">Clear filters</button></div><div class="reference-tip"><span aria-hidden="true">✳</span><p><b>Meaning matters.</b> Semantic tags like <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, and <code>&lt;footer&gt;</code> help people, browsers, and assistive technology understand your page.</p><span class="eyebrow">GOOD HTML IS A GOOD START.</span></div></div></section>
+<section id="playground" class="wrap lab"><div class="section-heading"><div class="section-number">03</div><div><div class="eyebrow">LESS READING. MORE DOING.</div><h2>See what happens.</h2></div><p>Three little experiments.<br>Go ahead. You can always reset.</p></div><div class="experiments"><article class="experiment" id="text-lab"><div class="experiment-title"><span class="eyebrow">A / TEXT & CONTENT</span><button class="reset" data-reset="text">Reset ↺</button></div><h3>Same words. New meaning.</h3><p>Headings name a section; paragraphs hold its story. The tag tells the browser which is which.</p><label for="text-tag" class="try-label">TRY / Switch the tag below</label><div class="control-row"><select id="text-tag"><option value="h1">&lt;h1&gt; — Main heading</option><option value="h2">&lt;h2&gt; — Section heading</option><option value="p">&lt;p&gt; — Paragraph</option><option value="strong">&lt;strong&gt; — Important text</option><option value="em">&lt;em&gt; — Emphasis</option></select></div><div class="live-preview" id="text-preview"></div><pre class="mini-code" id="text-code"></pre><p class="feedback" id="text-feedback" aria-live="polite"></p><p class="practical-rule"><b>FIELD RULE</b> Choose headings for structure, not size.</p></article><article class="experiment" id="list-lab"><div class="experiment-title"><span class="eyebrow">B / LISTS & STRUCTURE</span><button class="reset" data-reset="list">Reset ↺</button></div><h3>A little order goes a long way.</h3><p>Use bullets for a collection and numbers when the sequence matters. Each item uses <code>&lt;li&gt;</code>.</p><span class="try-label">TRY / Change the kind of list</span><div class="segmented" role="group" aria-label="List type"><button data-list="ul" aria-pressed="true">Bullets &lt;ul&gt;</button><button data-list="ol" aria-pressed="false">Numbers &lt;ol&gt;</button></div><div class="live-preview" id="list-preview"></div><pre class="mini-code" id="list-code"></pre><p class="feedback" id="list-feedback" aria-live="polite"></p><p class="practical-rule"><b>FIELD RULE</b> Put each list item inside a list.</p></article></div><article class="form-studio"><div class="form-description"><div class="experiment-title"><span class="eyebrow">C / FORMS & USER INPUT</span><button class="reset" data-reset="form">Reset ↺</button></div><h3>Start a conversation.</h3><p>A form groups inputs. Labels tell people what to enter, and a submit button asks the browser to send the form.</p><p class="try-label">TRY / Fill it in, then press Send</p><p class="practical-rule"><b>FIELD RULE</b> Match each label’s <code>for</code> to the input’s <code>id</code>.</p><details class="form-source"><summary>See the complete form code <span aria-hidden="true">↗</span></summary><button class="copy-button" data-copy="form">Copy code ⧉</button><pre id="form-code"></pre></details></div><form id="contact-demo"><div class="form-topline"><span class="eyebrow">A FRIENDLY HELLO</span><span class="demo-badge">LOCAL DEMO</span></div><div class="form-pair"><label>Your name<input name="name" id="contact-name" placeholder="Alex" required></label><label>Email address<input name="email" id="contact-email" type="email" placeholder="alex@example.com" required></label></div><label>Your message<textarea name="message" id="contact-message" rows="3" placeholder="I’m learning to build things…" required></textarea></label><div class="form-bottom"><span>Nothing is sent or saved.</span><button class="primary" type="submit">Send a hello ↗</button></div><p id="form-feedback" class="feedback" aria-live="polite">A button needs form behavior or JavaScript to perform an action.</p></form></article>
+<div class="classes-panel">
+  <div class="classes-copy">
+    <span class="eyebrow">UNIQUE ID. REUSABLE CLASS.</span>
+    <h3>Classes &amp; IDs.</h3>
+    <p>An <code>id</code> identifies one specific element on a page. A <code>class</code> is a reusable label you can apply to many elements—even many cards.</p>
+    <div class="selector-controls" role="group" aria-label="Choose a selector to visualize">
+      <button data-selector-demo="id" aria-pressed="true"><code>#research-card</code><span>finds one unique element</span></button>
+      <button data-selector-demo="class" aria-pressed="false"><code>.topic</code><span>finds all elements with that shared class</span></button>
+    </div>
+    <p id="selector-feedback" class="selector-feedback" aria-live="polite"></p>
+  </div>
+  <div class="selector-visual">
+    <div class="selector-stage" aria-label="A research card with three topic labels">
+      <article id="research-card" class="demo-node profile-card" data-demo-id>
+        <span class="node-label">id=&quot;research-card&quot;</span>
+        <h4>Research interests</h4>
+        <div class="topic-row">
+          <span class="demo-node topic" data-demo-class>AI ethics</span>
+          <span class="demo-node topic" data-demo-class>Data justice</span>
+          <span class="demo-node topic" data-demo-class>Accessibility</span>
+        </div>
+      </article>
+      <div class="match-count" id="selector-match-count" aria-hidden="true">1 match</div>
+    </div>
+    <pre id="class-code"></pre>
+  </div>
+</div></section>
+<section id="challenge" class="challenge-section"><div class="wrap lab">
+  <div class="section-heading"><div class="section-number">04</div><div><div class="eyebrow">FIVE MISSIONS / INTRODUCE YOURSELF & YOUR THINKING</div><h2>Introduce yourself.<br>Show how you think.</h2></div><span class="challenge-stamp" aria-hidden="true">&lt;YOU /&gt;</span></div>
+  <div class="challenge-intro"><p>Introduce your focus, share things you enjoy, and emphasize an idea that matters to you.<br>Build a profile that shows readers who you are and what you want to learn.</p><span class="mission-session">Your work stays in this tab.<br>Copy it before you leave.</span></div>
+  <div class="mission-progress-heading"><span class="eyebrow">YOUR RESEARCH PROFILE</span><span id="mission-progress-count">0 of 5 complete</span></div>
+  <ol id="mission-progress" class="mission-progress" aria-label="Introduction missions"></ol>
+  <div id="mission-complete" class="mission-complete" hidden>
+    <span class="completion-mark" aria-hidden="true">✳</span><div><h3>You made your introduction page!</h3><p>Your complete <code>index.html</code> is below. Copy it into VS Code to keep working on it.</p></div>
+    <div class="completion-actions"><button class="primary" id="copy-my-page">Copy my page ⧉</button><button class="light-button" id="view-my-page">View / download HTML ↓</button><button class="light-button" id="experiment-page">Keep experimenting ↗</button></div>
+  </div>
+  <div class="mission-studio">
+    <div class="mission-left">
+      <div id="guided-controls" class="mission-prompt">
+        <div class="mission-topline"><span id="mission-kicker" class="eyebrow"></span></div>
+        <h3 id="mission-title" tabindex="-1"></h3><p id="mission-instruction"></p>
+        <div id="reasoning-prompt" class="reasoning-prompt" hidden><span class="eyebrow">THINK IT THROUGH</span><p id="reasoning-text"></p></div>
+        <details id="mission-hint" class="mission-hint"><summary>Show a hint</summary><p id="mission-hint-text"></p></details>
+      </div>
+      <div id="experiment-controls" class="mission-prompt" hidden><div class="mission-topline"><span class="eyebrow">YOUR WORKING DRAFT</span><button id="back-to-missions" class="mission-help">← Back to missions</button></div><h3 tabindex="-1" id="experiment-title">Keep making it yours.</h3><p>This is a separate copy of your page. Change the HTML and see what happens. Your five mission snippets stay as you left them.</p><div class="experiment-actions"><button id="copy-experiment" class="primary">Copy this version ⧉</button><button id="view-experiment" class="mission-help">View / download HTML ↓</button><button id="restore-experiment" class="mission-help">Restore from missions ↺</button></div></div>
+      <div id="mission-editor-pane" class="editor-pane mission-editor-pane"><label for="challenge-editor" class="editor-label"><span id="mission-editor-label">YOUR HTML</span><span>Start with a blank editor. Preview updates as you type.</span></label><textarea id="challenge-editor" spellcheck="false" aria-describedby="mission-instruction challenge-help"></textarea></div>
+      <div id="mission-step-controls" class="mission-step-controls"><div class="mission-check-row"><button id="reset-mission" class="mission-help">Reset this mission ↺</button><button id="check-mission" class="primary">Check my step ✓</button></div><p id="challenge-feedback" class="mission-feedback" role="status" aria-live="polite"></p><div class="mission-next-row"><span id="mission-next-note">Check your step when you’re ready.</span><button id="next-mission" class="primary" disabled aria-describedby="mission-next-note">Next mission →</button></div></div>
+    </div>
+    <div class="preview-pane mission-preview"><div class="editor-label">YOUR INTRODUCTION <span>A little more you with every step.</span></div><iframe id="challenge-preview" sandbox="allow-popups allow-popups-to-escape-sandbox" title="Your introduction page preview"></iframe><div class="preview-caption">A little CSS is included to style your page. Valid links open in a new tab, keeping your work here.</div></div>
+  </div>
+  <section id="finished-code" class="code-window finished-code-panel" aria-labelledby="finished-code-title" hidden>
+    <div class="window-bar"><div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div><span>index.html / your complete page</span></div>
+    <div class="finished-code-content">
+      <div class="finished-code-heading"><div><span class="eyebrow">YOUR COMPLETE HTML FILE</span><h3 id="finished-code-title">Ready for VS Code.</h3><p>This includes your five mission answers and the CSS. Copy everything, create a file named <code>index.html</code> in VS Code, and paste it there.</p></div><div class="finished-code-actions"><button class="primary" id="copy-finished-code" type="button">Copy full code ⧉</button><button class="light-button" id="select-finished-code" type="button">Select all</button></div></div>
+      <label for="finished-code-source">Complete HTML source</label><textarea id="finished-code-source" readonly spellcheck="false" aria-describedby="finished-code-status"></textarea>
+      <p id="finished-code-status" role="status">Save the file, then open it in your browser to see your page.</p>
+    </div>
+  </section>
+  <p id="challenge-help" class="challenge-help">Type the HTML for each mission yourself. The editor starts blank; use Find your tag above whenever you want to explore. Your full file appears after all five missions. Checks confirm the requested structure and content, but they do not assess the quality of your ideas. Nothing is submitted or saved when you reload.</p>
+</div></section>
+<section class="wrap rules-section"><div><span class="eyebrow">BEFORE YOU CALL IT DONE</span><h2>Good habits.<br>Better HTML.</h2><p>A tiny checklist for your next creation.</p></div><div class="rules-grid" id="rules"></div></section>
+</main><footer class="wrap footer"><a class="brand footer-brand" href="#"><span class="brand-symbol">&lt;/&gt;</span> HTML FIELD GUIDE</a><span>A little reference. A lot of possibility.</span><a href="#">Back to top ↑</a></footer>
+<dialog id="tag-dialog" aria-labelledby="dialog-title"><div class="dialog-top"><span id="dialog-category" class="eyebrow"></span><button id="close-dialog" aria-label="Close tag details">✕</button></div><div id="dialog-body"></div></dialog><dialog id="export-dialog" aria-labelledby="export-title" aria-describedby="export-help">
+  <div class="dialog-top"><span class="eyebrow">TAKE YOUR WORK WITH YOU</span><button id="close-export" type="button" aria-label="Close code export">✕</button></div>
+  <h2 id="export-title">Your HTML</h2><p id="export-help">Copy this code, or download it as an HTML file and open it in your browser.</p>
+  <label for="export-code">HTML source</label><textarea id="export-code" readonly spellcheck="false"></textarea>
+  <p id="export-status" role="status"></p>
+  <div class="export-actions"><button id="export-copy" class="primary" type="button">Copy code ⧉</button><button id="export-select" class="light-button" type="button">Select all</button><button id="export-download" class="light-button" type="button">Download HTML ↓</button></div>
+</dialog><div id="toast" role="status" class="toast"></div>
+<noscript><p class="wrap">Enable JavaScript to search tags and use the interactive examples. The page structure, core concepts, and form remain available above.</p></noscript>
+</body></html>
